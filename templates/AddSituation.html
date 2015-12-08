@@ -1,0 +1,237 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
+	<title>新增情境 | ToDo List</title>
+    <!--日期空间的CSS-->
+    <style>
+        .header {
+            font: 12px Arial, Tahoma !important;
+            font-weight: bold !important;
+            font: 11px Arial, Tahoma;
+            font-weight: bold;
+            color: #154BA0;
+            background: #C2DEED;
+            height: 25px;
+            padding-left: 10px;
+        }
+
+        .header td {
+            padding-left: 10px;
+        }
+
+        .header a {
+            color: #154BA0;
+        }
+
+        .header input {
+            background: none;
+            vertical-align: middle;
+            height: 16px;
+        }
+
+        .category {
+            font: 12px Arial, Tahoma !important;
+            font: 11px Arial, Tahoma;
+            color: #92A05A;
+            height: 20px;
+            background-color: #FFFFD9;
+        }
+
+        .category td {
+            border-bottom: 1px solid #DEDEB8;
+        }
+
+        .expire, .expire a:link, .expire a:visited {
+            color: #999999;
+        }
+
+        .default, .default a:link, .default a:visited {
+            color: #000000;
+        }
+
+        .checked, .checked a:link, .checked a:visited {
+            color: #FF0000;
+        }
+
+        .today, .today a:link, .today a:visited {
+            color: #00BB00;
+        }
+
+        #calendar_year {
+            display: none;
+            line-height: 130%;
+            background: #FFFFFF;
+            position: absolute;
+            z-index: 10;
+        }
+
+        #calendar_year .col {
+            float: left;
+            background: #FFFFFF;
+            margin-left: 1px;
+            border: 1px solid #86B9D6;
+            padding: 4px;
+        }
+
+        #calendar_month {
+            display: none;
+            background: #FFFFFF;
+            line-height: 130%;
+            border: 1px solid #86B9D6;
+            padding: 4px;
+            position: absolute;
+            z-index: 11;
+        }
+
+        .tableborder {
+            background: white;
+            border: 1px solid #86B9D6;
+        }
+
+        #year,#month {
+            padding-right: 10px;
+        }
+    </style>
+
+    <script language="javascript">
+        //解决日历兼容性
+        var ie =navigator.appName=="Microsoft Internet Explorer"?true:false;
+        function $(objID){
+            return document.getElementById(objID);
+        }
+    </script>
+	<script>
+        function showdel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'block';
+            }
+        }
+        function hidedel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'none';
+            }
+        }
+		function showdropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'block';
+		}
+		function hidedropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'none';
+		}
+        function changetag(){
+            var box = document.getElementsByClassName('check');
+            for(var i=0; i<box.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid');
+                    f[i].submit();
+                }
+            }
+        }
+        function del(){
+            var bts = document.getElementsByClassName('delbtn');
+            for(var i=0; i<bts.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid2');
+                    f[i].submit();
+                }
+            }
+        }
+	</script>
+</head>
+
+
+
+
+<body>
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+
+			<div class="l-header">
+                <div id="logo2"><img src="{% static "images/logo2.png" %}" /></div>
+				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option0/';"><img src="{% static "images/plus1.png" %}" /></div>
+            </div>
+            <div class="r-header" >
+				<div id="avatar"></div>
+            	<div class="username" onclick="showdropdown()" style="cursor:pointer"><div id="name" style="display:inline-block;"><a style="color:white;">欢迎，{{ uname }}</a></div>
+				</div>
+				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
+					<ul>
+							<li><a style="cursor:pointer;">个人信息</a></li>
+							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">常见问题</a></li>
+							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
+						</ul>
+					</div>
+
+			</div>
+    	</div>
+	</div>
+
+	<!--侧边栏-->
+	<div class="sidebar">
+		<ul>
+			<li>
+				<h3>收 藏</h3>
+				<ul>
+					<li onclick="window.location.href='/CollectedTask/{{ uid }}';"><div id="pic0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收集箱</div></li>
+				</ul>
+			</li>
+			<li>
+				<h3>聚 焦</h3>
+				<ul>
+					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
+					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
+					<li onclick="window.location.href='/calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
+					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
+				</ul>
+			</li>
+			<li>
+				<h3>所有情境 <div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
+				<ul>
+					{% ifequal flag1 0 %}
+                         <li>无</li>
+                    {% else %}
+                        {% for situ in result2 %}
+                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';">{{ situ.stitle }}</li>
+                        {% endfor %}
+                    {% endifequal %}
+				</ul>
+			</li>
+			<li>
+				<h3>完 毕</h3>
+				<ul>
+					<li onclick="window.location.href='/finished/{{ uid }}';">已完成</li>
+					<li onclick="window.location.href='/deleted/{{ uid }}';">垃圾箱</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<!--主体-->
+	<div id="content">
+		<div id="add-task-page" style="height:200px;">
+			<form method="post" action="/AddSituation/">
+                {% csrf_token %}
+                <br/><br/>
+                <input type="hidden" name="uid" value="{{ uid }}" />
+				<div class="input_box"><input name="title"  type="text" placeholder="情境名称" class="form_input" /></div>
+				<br/><br/>
+                <div>
+					<input type="submit" value="添加" />
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

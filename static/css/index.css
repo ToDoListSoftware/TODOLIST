@@ -1,0 +1,544 @@
+@charset "utf-8";
+
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lt{
+	float: left;
+}
+
+.rt{
+	float: right;
+}
+
+.clr{
+	clear: both;
+}
+
+body{
+	font-size:12px;
+	font-family: "微软雅黑",Arial;
+	color: #666;
+	background: #fff;
+	text-align: center;
+}
+
+a{
+	text-decoration: none;
+	color: #666;
+}
+
+a:hover{
+	text-decoration: underline;
+	color: #869fba;
+	cursor: pointer;
+}
+
+/*顶部样式*/
+#top{
+	width: 100%;
+	background:transparent url("../images/headbg.png") no-repeat scroll 0% 0% / cover;
+	position: static;
+	top: 0px;
+	left: 0px;
+	height: 56px;
+	min-width: 1004px;
+}
+
+#top_bar{
+	line-height: 56px;
+	width: 96%;
+	margin: auto auto;
+}
+
+
+
+#top_bar > ul > li{
+	float: left;
+	margin-right: 10px;
+	position: relative;
+}
+
+.l-header {
+    width: 128px;
+    float: left;
+    line-height: 56px;
+}
+
+.r-header {
+    width: 200px;
+    float: right;
+    line-height: 56px;
+    text-align: left;
+}
+
+#logo2{
+	width: 128px;
+	height: 56px;
+	float:left;
+}
+
+#add-task-btn{
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 13px;
+	left: 300px;
+}
+
+/*用户名格式设置*/
+#avatar {
+    width: 40px;
+    height: 40px;
+    float: left;
+    background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    margin: 8px auto; 
+    background-position: -160px -24px;
+}
+
+.username{
+	height: 56px;
+    color: #FFF;
+    font-size: 14px;
+    line-height: 56px;
+	width:130px;
+    white-space:nowrap; 
+	overflow:hidden;
+	text-overflow: ellipsis;
+    padding: 0px 20px 0px 5px;
+    background: transparent url("../images/arrow.png") no-repeat scroll right center;
+}
+
+#name{
+	color: #FFF;
+    font-size: 14px;
+    line-height: 56px;
+	width:130px;
+    white-space:nowrap; 
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+/*用户名下拉*/
+div.top_bar_drop_down{
+	position: relative;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	box-shadow: 0 0 2px 2px #eee;
+	z-index:999;
+	display: none;
+	top: 0px;
+}
+
+#user_drop_down{
+	width: 70px;
+	height: 138px;
+	left: 80px;
+	padding: auto 10px;
+}
+
+#user_drop_down > ul li {
+	margin: 0px;
+	padding: 8px 5px;
+	height: 20px;
+	margin: auto auto;
+}
+
+
+
+/*侧边栏*/
+.sidebar{
+	width: 200px;
+	min-height: 800px;
+	max-height: 1600px;
+	position: relative;
+	border-right: 1px solid #E5E5E5;
+	background-color: #FAFAFA;
+}
+
+.sidebar ul h3{
+	color: #AAAAAA;
+	text-align: left;
+	margin: 0px auto 6px 20px;
+	padding-top: 6px;
+}
+
+.sidebar ul li ul li{
+	height: 30px;
+	color: #333333;
+	font-size: 14px;
+	text-align: left;
+	margin: auto auto auto 0px;
+	padding-left: 40px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	display: block;
+	text-shadow: 0px 1px #FFF;
+	padding-top: 13px;
+	cursor: pointer;
+}
+
+.sidebar ul li ul li:hover{
+	background-color: #F5F5F5;
+}
+
+
+.sidebar #pic0{
+	width: 17px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: 0px 0px;
+}
+
+.sidebar #pic1{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -20px 0px;
+}
+
+.sidebar #pic2{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -45px 0px;
+}
+
+.sidebar #pic3{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -68px 0px;
+}
+
+.sidebar #pic4{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -92px 0px;
+}
+
+.sidebar #pic5{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -117px 0px;
+}
+
+/*主体内容*/
+#content{
+	float: right;
+	width:80%;
+	height: 800px;
+	position:absolute;
+	top: 56px;
+	left: 200px;
+}
+
+#search{
+	float: right;
+	position: relative;
+	width: 100%;
+	top: 20px;
+	text-align: center;
+}
+
+.input-box{
+	width: 350px;
+	height:40px;
+	padding-left: 5px;
+	font-size: 18px;
+}
+
+.input-box:focus{
+	outline-color: #4990e2;
+}
+
+.search-btn{
+	width: 83px;
+	height: 40px;
+	margin: 8px;
+	background: url("../images/btn.jpg") no-repeat;
+	color:#FFF;
+	border: 0;
+	position: absolute;
+	top:-6px;
+}
+
+.search-btn:hover{
+	cursor: pointer;
+}
+
+/*任务列表*/
+#task{
+	width: 950px;
+	height: 700px;
+	margin-top: 100px;
+		
+	margin-left: 50px;
+	
+}
+
+.task-item{
+	height: 50px;
+	border-bottom: 1px solid #eeeeee;
+	border-left: 5px solid #eeeeee;
+	display: block;
+	background: white;
+	text-align: left;
+}
+
+.task-item:hover{
+	background: #FCFCFC;
+}
+
+.task-checkbox{
+	float: left;
+	display: inline-block;
+	margin: 20px auto auto 20px;
+}
+
+.task-checkbox form input[type=checkbox]{
+	width: 30px;
+	height: 13px;
+	border: 1px solid #eee;
+	background: #fff;
+}
+
+.task-checkbox input:hover{
+	cursor: pointer;
+}
+
+.task-date{
+	float: left;
+	margin: 17px auto auto 20px;
+	font-size: 14px;
+}
+
+.task-description{
+	float: left;
+	margin: 17px auto auto 20px;
+	font-size: 14px;
+}
+
+.delbtn, .undelbtn{
+	float: right;
+	margin-top:  17px;
+	display: none;
+}
+
+.delbtn2, .undelbtn2{
+	float: right;
+	margin-top:  17px;
+	display: block;
+}
+
+/*日程--table*/
+
+
+#calendar table{
+	margin: 20px auto;
+	border-collapse: collapse;
+}
+
+/*预约*/
+#appointment-to-me{
+	border: 1px solid #ccc;
+	margin: 20px auto 20px 50px;
+}
+
+#appointment-to-me table{
+	border: 1px;
+	border-collapse:collapse;
+	margin: 10px auto;
+}
+
+#appointment-to-me table td{
+	width: 100px;
+	height: 20px;
+}
+
+#appointment-to-other{
+	border: 1px solid #ccc;
+	margin: 20px auto 20px 50px;
+}
+
+#appointment-to-other table{
+	border: 1px;
+	border-collapse:collapse;
+	margin: 10px auto;
+}
+
+#appointment-to-other table td{
+	width: 100px;
+	height:20px;
+	
+}
+
+/*添加任务*/
+#add-task-btn:hover{
+	cursor: pointer;
+}
+
+#add-task-page{
+	width: 500px;
+	height: 700px;
+	border: 1px solid #ccc;
+	margin: 50px auto; 	
+}
+
+
+.form_input{
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	line-height: 18px;
+	font-size: 14px;
+	width: 278px;
+	padding: 8px 10px;
+	margin: 15px auto;
+}
+
+.form_input:focus{
+	border-color: #238cff;
+}
+
+.input_box {
+    position: relative;
+    height: 60px;
+    margin: auto auto;
+}
+
+/*课程表*/
+#curriculum table{
+	margin: 20px auto 20px 20px;
+	border-collapse: collapse;
+}
+
+/*任务详情*/
+.name{
+	width: 100px;
+}
+
+.descrip{
+	width: 200px;
+}
+
+#detailtab{
+	margin: 20px auto;
+}
+
+#detailtab td{
+	width: 200px;
+	height: 30px;
+	font-size: 20px;
+}
+
+
+/*情境样式设置*/
+h3 div{
+	height: 0;
+}
+
+h3 div a{
+	position: relative;
+	top: -22px;
+	left:70px;
+	font-size: 20px;
+}
+
+h3 div a:hover{
+	text-decoration:none ;
+}
+
+.sidebar ul li ul li a{
+	position: relative;
+	left: 80px;
+}
+
+/*任务详情编辑按钮*/
+#upbtn{
+	width: 90px;
+	height: 40px;
+	margin: 8px;
+	background: url("../images/edit.png") no-repeat;
+	color:#FFF;
+	border: 0;
+	position: absolute;
+	top :300px;
+	left: 900px;
+}
+
+/*个人信息*/
+.titlef{
+	font-size: 18px;
+	width: 100px;
+	height:40px;
+	text-align: left;
+}
+
+.oneinfo {
+	font-size: 18px;
+	height: 40px;
+	width: 300px;
+	text-align: left;
+
+}
+
+#infotab{
+	margin:20px auto;
+}
+
+#infodiv{
+	margin: auto auto;
+	width:700px;
+	margin-top: 50px;
+	border: 1px solid #e5e5e5;
+}
+
+.setoverflow{
+	text-align: left;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	display: block;
+}
+
+/*页脚*/
+#footer{
+	background: #F7F7F7; 
+	margin: 10px auto 0;
+	text-align: center;
+	border-top: 1px solid #EEE;
+	width: 100%;
+	position: absolute;
+	top: 849px;
+}

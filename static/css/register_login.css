@@ -1,0 +1,175 @@
+@charset "utf-8";
+
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lt{
+	float: left;
+}
+
+.rt{
+	float: right;
+}
+
+.clr{
+	clear: both;
+}
+
+body{
+	font-size:12px;
+	font-family: "微软雅黑",Arial;
+	color: #666;
+	background: #fff;
+	text-align: center;
+}
+
+a{
+	text-decoration: none;
+	color: #666;
+}
+
+a:hover{
+	text-decoration: underline;
+	color: #869fba;
+}
+
+/*顶部样式*/
+#top{
+	width: 100%;
+	background:#F7F7F7;
+	border-bottom: 1px solid #EEE;
+	height: 30px;
+	/*position: fixed;*/
+}
+
+#top_bar{
+	line-height: 30px;
+	width: 96%;
+	margin: auto auto;
+}
+
+
+
+#top_bar > ul > li{
+	float: left;
+	margin-right: 10px;
+	position: relative;
+}
+
+/*logo*/
+#logo{
+	height: 109px;
+	text-align: center;
+}
+
+
+
+
+/*登录注册界面*/
+#login{
+	height: 320px;
+	margin: 50px auto 50px;
+}
+
+#main{
+	width: 50%;
+	margin: 10px auto;
+
+}
+
+.input_box {
+    position: relative;
+    height: 60px;
+    margin: auto auto;
+}
+
+#inner_form{
+	text-align: center;
+	border: 2px solid #ccc;
+	padding: 20px 40px 10px;
+	border-radius: 4px;
+	width: 300px;
+	margin: auto auto;
+}
+
+.form_input{
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	line-height: 18px;
+	font-size: 14px;
+	width: 278px;
+	padding: 8px 10px;
+	margin: 15px auto;
+}
+
+.form_input:focus{
+	border-color: #238cff;
+}
+
+#remember_me{
+	float: left;
+}
+
+#forgot_password{
+	float: right;
+	font-size: 14px;
+}
+
+#login_btn,#register_btn{
+	background: #007aff;
+    border-radius: 2px;
+    text-align: center;
+    border: 0;
+    width: 300px;
+    height: 44px;
+    line-height: 39px;
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#login_btn:hover,#register_btn:hover{
+	background: #008fee;
+}
+
+.text_color_deep>a{
+	line-height: 60px;
+	color: #869fba;
+}
+
+.text_color_deep{
+	line-height: 60px;
+	color: #869fba;
+}
+
+#login_register>a{
+	line-height: 40px;
+	color: #869fba;
+}
+
+#login_register{
+	position: relative;
+    height: 40px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+#agree{
+	text-align: left;
+}
+
+
+/*页脚*/
+#footer{
+	background: #F7F7F7; 
+	margin: 0px auto;
+	text-align: center;
+	border-top: 1px solid #EEE;
+	width: 100%;
+}

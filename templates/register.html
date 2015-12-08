@@ -1,0 +1,113 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="todo.png" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/register_login.css" %}" type="text/css"/>
+	<title>登录 | ToDo List</title>
+
+    <script>
+        function isaccepted(){
+            if(document.getElementById('agree-rules').checked==true){
+                document.getElementById('register_btn').disabled = false;
+            }
+            else{
+                document.getElementById('register_btn').disabled = true;
+            }
+        }
+
+    </script>
+
+
+
+</head>
+
+<body>
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+			
+			<ul class="rt">
+				<li>
+					您好！欢迎来到 TO DO LIST ！
+					<a href="/login">[登录]</a>
+					<a href="/register">[免费注册]</a>
+				</li>
+			</ul>	
+    	</div>
+	</div>
+	<!--LOGO-->
+	<div id="logo">
+		<img src="{% static "images/logo1.png" %}"/>
+	</div>
+
+	<div id="login">
+		<div id="main">
+			<div id="inner_form">
+                {% ifequal flag 0 %}
+                    <p style="color: red; font-size: 14px;"><b>*用户名已存在*</b></p>
+                {% endifequal %}
+                {% ifequal flag 1 %}
+                    <p style="color: red; font-size: 14px;"><b>*邮箱已存在*</b></p>
+                {% endifequal %}
+                {% ifequal flag 3 %}
+                    <p style="color: red; font-size: 14px;"><b>*密码不能少于6位*</b></p>
+                {% endifequal %}
+                {% ifequal flag 4 %}
+                    <p style="color: red; font-size: 14px;"><b>*邮箱格式不正确*</b></p>
+                {% endifequal %}
+                {% ifequal flag 5%}
+                    <p style="color: red; font-size: 14px;"><b>*用户名只能包含数字及字母*</b></p>
+                {% endifequal %}
+				<form method="post" action="/register/" class="holding" id="signin_form">
+					{% csrf_token %}
+                    <div class="input_box">
+	                      <input id="username" tabindex="1" required type="text" name="name" placeholder="用户名" class="form_input"/>
+                  	</div>
+                  	<div class="input_box">
+	                       <input id="user_username" tabindex="2" required type="text" name="email" placeholder="电子邮箱" class="form_input"/>
+                  	</div>
+                  	<div class="input_box">
+	                      <input id="login_password" tabindex="3" required type="password" placeholder="密码" name="password" class="form_input"/>
+	                </div>
+	                <div class="input_box">
+	                	<div id ="agree">
+	                    	<input type="checkbox" name="agree_rules" onclick="isaccepted();" id="agree-rules" tabindex="8"/>
+			                <span class="text_color_deep">
+			                    我愿意遵守Check的
+			                    <a href="http://doitim.com/terms" target="_blank">服务条款</a>
+			                    和
+			                    <a href="http://doitim.com/privacy" target="_blank">隐私政策</a>
+			                </span>
+			            </div>
+                	</div>
+	               
+                    <div id="submit_btn_box">
+                    		<input type="submit" tabindex="4" name="" disabled value="立即注册" id="register_btn"/>
+               		</div>
+               		<div id="login_register" class="clr">
+               			已有账号？<a href="/login">马上登录>></a>
+               		</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<br/><br/>
+	<div id="footer">
+		<br/>
+		<p class="copy">
+		 	<a href="http://doitim.com/about_us">关于我们</a> |
+            <a href="http://doitim.com/about_us">联系我们</a> |
+            <a href="http://doitim.com/about_us">广告服务</a> |
+            <a href="http://doitim.com/terms">服务条款</a> |
+            <a href="http://doitim.com/privacy">隐私政策</a>
+        </p><br/>
+		哈尔滨工业大学&nbsp;&nbsp;哈尔滨市南岗区西大直街92号&nbsp;&nbsp;邮编 150006<br/><br/>
+		Copyright © 2015 Xiao Qing &amp; ShuangWei Shi &amp; JiHao Shi 版权所有 <br/><br/>
+	</div>
+
+
+
+</body>
+</html>

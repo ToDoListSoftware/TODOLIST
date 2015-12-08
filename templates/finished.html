@@ -1,0 +1,179 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
+	<title>已完成 | ToDo List</title>
+
+	<script>
+        function showdel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.cssText = 'display:block;';
+            }
+        }
+        function hidedel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'none';
+            }
+        }
+
+		function showdropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'block';
+		}
+		function hidedropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'none';
+		}
+        function changetag(){
+            var box = document.getElementsByClassName('check');
+            for(var i=0; i<box.length; i++){
+                if (box[i].checked == false)
+                {
+                    var f = document.getElementsByClassName('formid');
+                    f[i].submit();
+                }
+            }
+        }
+        function del(){
+            var bts = document.getElementsByClassName('delbtn');
+            for(var i=0; i<bts.length; i++){
+                if (bts[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid2');
+                    f[i].submit();
+                }
+            }
+        }
+
+
+	</script>
+</head>
+
+
+
+
+<body>
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+
+			<div class="l-header">
+                <div id="logo2"><img src="{% static "images/logo2.png" %}" /></div>
+				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option3/';"><img src="{% static "images/plus1.png" %}" /></div>
+            </div>
+            <div class="r-header" >
+				<div id="avatar"></div>
+            	<div class="username" onclick="showdropdown()" style="cursor:pointer"><div id="name" style="display:inline-block;"><a style="color:white;">欢迎，{{ uname }}</a></div>
+				</div>
+				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
+					<ul>
+							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
+							<li><a style="cursor:pointer;">常见问题</a></li>
+							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
+						</ul>
+					</div>
+
+			</div>
+    	</div>
+	</div>
+
+	<!--侧边栏-->
+	<div class="sidebar">
+		<ul>
+			<li>
+				<h3>收 藏</h3>
+				<ul>
+					<li onclick="window.location.href='/CollectedTask/{{ uid }}';"><div id="pic0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收集箱</div></li>
+				</ul>
+			</li>
+			<li>
+				<h3>聚 焦</h3>
+				<ul>
+					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
+					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
+					<li onclick="window.location.href='/calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
+					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
+				</ul>
+			</li>
+			<li>
+				<h3>所有情境<div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
+				<ul>
+					{% ifequal flag1 0 %}
+                         <li>无</li>
+                    {% else %}
+                        {% for situ in result2 %}
+                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';">{{ situ.stitle }}</li>
+                        {% endfor %}
+                    {% endifequal %}
+				</ul>
+			</li>
+			<li>
+				<h3>完 毕</h3>
+				<ul>
+					<li style="background-color: #F0F0F0;" onclick="window.location.href='/finished/{{ uid }}';">已完成</li>
+					<li onclick="window.location.href='/deleted/{{ uid }}';">垃圾箱</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<!--主体-->
+	<div id="content">
+		<div id="search">
+			<form method="post" action="/searchtask/">
+                {% csrf_token %}
+                <input type="hidden" name="uid" value="{{ uid }}" />
+				<input type="text" name="word" placeholder="搜索任务" class="input-box"/>
+				<input type="submit" value="" class="search-btn"/>
+			</form>
+		</div>
+
+		<div id="task">
+            {% for task in result %}
+                <div class="task-item"  onmouseout="hidedel()" onmouseover="showdel()">
+                    <div class="task-checkbox">
+                        <form class="formid" method="POST" action="/TaskUnfinish/">
+                            {% csrf_token %}
+                            <input type="hidden" name="uid" value="{{ uid }}" />
+                            <input type="hidden" name="id" value="{{ task.id1 }}" />
+                            <input class="check" type="checkbox" onclick="changetag()" checked/>
+                        </form>
+                    </div>
+                    <div class="task-date">
+                        {% ifequal task.tag1 1 %}
+                            Future
+                        {% else %}
+                            {{task.date1}}
+                        {% endifequal %}
+                    </div>
+                    <div class="task-description">
+                        {% ifequal task.pri1 2 %}
+                        <a href="/TaskDetail/id{{ task.id1 }}uid{{ uid }}" style="color:red;">{{ task.title1}}</a>
+                        {% endifequal %}
+                        {% ifequal task.pri1 1 %}
+                        <a href="/TaskDetail/id{{ task.id1 }}uid{{ uid }}" style="color:orange;">{{ task.title1}}</a>
+                        {% endifequal %}
+                        {% ifequal task.pri1 0%}
+                        <a href="/TaskDetail/id{{ task.id1 }}uid{{ uid }}">{{task.title1}}</a>
+                        {% endifequal %}
+                    </div>
+                    <div id="del-btn">
+                        <form class="fomid2" method="post" action="/TaskDeleteInFinish/">
+                            {% csrf_token %}
+                            <input type="hidden" name="uid" value="{{ uid }}" />
+                            <input type="hidden" name="id" value="{{ task.id1 }}" />
+                            <input type="submit" value="删除" class="delbtn" onclick="del()"/>
+                        </form>
+                    </div>
+			    </div>
+            {% endfor %}
+        </div>
+	</div>
+</body>
+</html>

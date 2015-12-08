@@ -1,0 +1,90 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/register_login.css" %}" type="text/css"/>
+	<title>登录 | ToDo List</title>
+</head>
+
+<body>
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+			<ul class="rt">
+				<li>
+					您好！欢迎来到 TO DO LIST ！
+					<a href="/login">[登录]</a>
+					<a href="/register">[免费注册]</a>
+				</li>
+			</ul>	
+    	</div>
+	</div>
+	<div id="logo">
+		<img src="{% static "images/logo1.png" %}"/>
+	</div>
+	<div id="login">
+		<div id="main">
+			<div id="inner_form">
+                {% ifequal flag 0 %}
+                    <p style="color: red; font-size: 14px;"><b>*用户名/邮箱或密码错误*</b></p>
+                {% endifequal %}
+                {% ifequal flag 3 %}
+                    <p style="color: red; font-size: 14px;"><b>*重置密码成功,请登录*</b></p>
+                {% endifequal %}
+                {% ifequal flag 4 %}
+                    <p style="color: red; font-size: 14px;"><b>*找回密码失败,请重新尝试*</b></p>
+                {% endifequal %}
+                {% ifequal flag 2 %}
+                    <p style="color: red; font-size: 14px;"><b>*由于您长时间未操作,请重新登录*</b></p>
+                {% endifequal %}
+				<form method="post" action="/login/" class="holding" id="signin_form">
+					{% csrf_token %}
+                    <div class="input_box">
+	                      <input id="username" tabindex="1" required="required" type="text" name="name" placeholder="用户名/邮箱" class="form_input"/>
+                  	</div>
+                  	<div class="input_box">
+	                      <input id="login_password" tabindex="2" required type="password" placeholder="密码" name="password" class="form_input"/>
+	                </div>
+	                <div class="input_box">
+                        <div id="remember_me" class="text_color_deep">
+                            <label for="autologin">
+                                <input type="checkbox" value="1" tabindex="3" name="autologin" id="autologin" class="checkbox">
+                                记住我
+                            </label>
+                        </div>
+                        <div id="forgot_password" class="text_color_deep">
+                            <a onfocus="blur()" href="/ForgetPwd">
+                                忘记密码?
+                            </a>
+                        </div>
+                    </div>
+                    <div id="submit_btn_box">
+                    		<input type="submit" tabindex="4" name="" value="登录" id="login_btn"/>
+               		</div>
+               		<div id="login_register">
+               			没有账号？<a href="/register">立即注册>></a>
+               		</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<br/>
+		<p class="copy">
+		 	<a href="http://doitim.com/about_us">关于我们</a> |
+            <a href="http://doitim.com/about_us">联系我们</a> |
+            <a href="http://doitim.com/about_us">广告服务</a> |
+            <a href="http://doitim.com/terms">服务条款</a> |
+            <a href="http://doitim.com/privacy">隐私政策</a>
+        </p><br/>
+		哈尔滨工业大学&nbsp;&nbsp;哈尔滨市南岗区西大直街92号&nbsp;&nbsp;邮编 150006<br/><br/>
+		Copyright © 2015 Xiao Qing &amp; ShuangWei Shi &amp; JiHao Shi 版权所有 <br/><br/>
+	</div>
+
+
+
+</body>
+</html>
