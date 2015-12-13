@@ -104,7 +104,7 @@ def ForgetPwd(request):
             info=SearchUserByEmail(email)
             uid=info[0]
             skey=createskey()
-            url="127.0.0.1:8000/ResetPwd/uid"+str(uid)+"skey"+skey
+            url="todolistcheck.sinaapp.com/ResetPwd/uid"+str(uid)+"skey"+skey
             if GetresetpwdMax()[0]==None:
                 id =1
             else:

@@ -17,7 +17,7 @@ import os.path
 #import sae.const
 from os import environ
 debug = not environ.get("APP_NAME", "")
-
+"""
 if debug:
 #LOCAL 本地调试用，便于导出数据库,根据本地MYSQL数据库填写下面参数
     MYSQL_DB = 'mysite' 
@@ -37,7 +37,7 @@ else:
     MYSQL_HOST_S = sae.const.MYSQL_HOST_S 
     MYSQL_PORT = sae.const.MYSQL_PORT
 
-
+"""
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'todolistcheck.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
 
@@ -98,7 +98,7 @@ DATABASES = {
 
     }
 }
-
+"""
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
