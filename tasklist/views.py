@@ -358,6 +358,9 @@ def AddTask(request):
         location = request.POST.get('location')
         situation = request.POST.get('situation')
         des = request.POST.get('des')
+        ordertag=0
+        couid=0
+        period=0
         if request.POST.get('situation')=='':
             situation=None
         else:
@@ -373,11 +376,11 @@ def AddTask(request):
         else:
             tid=GetTaskTIDMax()[0]+1
         if sdate ==u'无' :
-            WriteTask(int(id),int(tid),int(uid),title,"3000-01-01",int(priority),location,des,0,situation)
+            WriteTask(int(id),int(tid),int(uid),title,"3000-01-01",int(priority),location,des,0,situation,ordertag,couid,period)
         elif edate ==u'无':
-            WriteTask(int(id),int(tid),int(uid),title,sdate,int(priority),location,des,0,situation)
+            WriteTask(int(id),int(tid),int(uid),title,sdate,int(priority),location,des,0,situation,ordertag,couid,period)
         elif edate==sdate:
-            WriteTask(int(id),int(tid),int(uid),title,sdate,int(priority),location,des,0,situation)
+            WriteTask(int(id),int(tid),int(uid),title,sdate,int(priority),location,des,0,situation,ordertag,couid,period)
         elif edate!=sdate:
             days=datediff(sdate,edate)
             date1=strtodatetime(sdate,"%Y-%m-%d")
@@ -387,7 +390,7 @@ def AddTask(request):
                     id=1
                 else:
                     id=GetTaskIDMax()[0]+1
-                WriteTask(id,tid,uid,title,tdate,priority,location,des,0,situation)
+                WriteTask(id,tid,uid,title,tdate,priority,location,des,0,situation,ordertag,couid,period)
         if option==0:
             return HttpResponseRedirect('/CollectedTask/'+str(uid))
         elif option == 1:

@@ -3,7 +3,7 @@ _author_='shishuangwei'
 import operator
 import MySQLdb
 #import sae.const
-"""
+
 HOST = 'localhost'
 PORT = 3306
 USER = 'root'
@@ -18,6 +18,7 @@ USER = sae.const.MYSQL_USER
 PASSWORD = sae.const.MYSQL_PASS
 DBNAME = sae.const.MYSQL_DB
 CHARSET = 'utf8'
+"""
 def Init():
     try:
         conn = MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, charset = CHARSET )
@@ -31,6 +32,10 @@ def Init():
                                         password VARCHAR(100),\
                                         description VARCHAR(200),\
                                         brithday DATE,\
+                                        location varchar(100),\
+                                        school varchar(100),\
+                                        company varchar(100),\
+                                        job varchar(100),\
                                         PRIMARY KEY (userid))DEFAULT CHARSET=utf8;')
         cur.execute('create table situation(id INT NOT NULL,\
                                             userid int not null,\
@@ -47,6 +52,9 @@ def Init():
                                           description VARCHAR(200),\
                                           tag INT NOT NULL,\
                                           situation int ,\
+                                          ordertag int,\
+                                          couid int,\
+                                          period int,\
                                           PRIMARY KEY(id)\
                                           )CHARSET=utf8;' )
         cur.execute('create table loginsuccess(id INT NOT NULL,\
@@ -103,12 +111,12 @@ def DropDB():
         return False
 
 ###################user#########################
-def WriteUser(id,username,email,gender,password,description,brithday):
+def WriteUser(id,username,email,gender,password,description,brithday,location,school,company,job):
     try:
-        value= (id,username,email,gender,password,description,brithday)
+        value= (id,username,email,gender,password,description,brithday,location,school,company,job)
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
-        cur.execute("insert into usertable values (%s,%s,%s,%s,%s,%s,%s)",value)
+        cur.execute("insert into usertable values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",value)
         conn.commit()
         cur.close()
         conn.close()
@@ -122,20 +130,9 @@ def ReadUser():
         cur=conn.cursor()
         cur.execute("select * from usertable")
         info=cur.fetchall()
-        result=[]
-        for row in info :
-            id = row[0]
-            username=row[1]
-            email=row[2]
-            gender=row[3]
-            password=row[4]
-            description=row[5]
-            brithday=row[6]
-            newnode=(id,username,email,gender,password,description,brithday)
-            result.append(newnode)
         cur.close()
         conn.close()
-        return result
+        return info
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
@@ -262,12 +259,12 @@ def ReadTask():
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
-def WriteTask(id,tid,userid,title,sdate,priority,location,description,tag,situation):
+def WriteTask(id,tid,userid,title,sdate,priority,location,description,tag,situation,ordertag,couid,period):
     try:
-        value= (id,tid,userid,title,sdate,priority,location,description,tag,situation)
+        value= (id,tid,userid,title,sdate,priority,location,description,tag,situation,ordertag,couid,period)
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
-        cur.execute("insert into tasklist values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",value)
+        cur.execute("insert into tasklist values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",value)
         conn.commit()
         cur.close()
         conn.close()
@@ -490,18 +487,18 @@ def Searchresetpwd(uid):
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
         cur.execute("select * from resetpwd where userid = %s", uid)
-        info = cur.fetchone()
+        info = cur.fetchall()
         cur.close()
         conn.close()
         return info
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
-def Deleteresetpwd(uid):
+def Deleteresetpwd(id):
     try:
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
-        cur.execute("delete from resetpwd where userid = %s", uid)
+        cur.execute("delete from resetpwd where id = %s", id)
         conn.commit()
         cur.close()
         conn.close()
@@ -518,6 +515,68 @@ def GetresetpwdMax():
         cur.close()
         conn.close()
         return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+###############friendreaqest###################
+def WriteFriendRequest(id,muid,suid,desc,sdate,tag):
+    try:
+        value= (id,muid,suid,desc,sdate,tag)
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("insert into friendrequest values (%s,%s,%s,%s,%s,%s)",value)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def UpdateFReqTag(frid,option):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("update friendrequest set tag = %s where id = %s",(option,frid))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchFReqBymuid(muid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from friendrequest where muid = %s", muid)
+        info = cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchFReqBysuid(suid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from friendrequest where suid = %s", suid)
+        info = cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def DeleteFReqByid(id):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("delete from friendrequest where id = %s", id)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False

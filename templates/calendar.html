@@ -7,6 +7,24 @@
 	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
     <link rel="stylesheet" href="{% static "JS/calendar_js.js" %}"/>
     <script src="{% static "JS/calendar_js.js" %}"></script>
+    <style>
+        .empty{
+            width:100px;
+            height:60px;
+        }
+        .current{
+            width:100px;
+            height:60px;
+            border: 1px solid #ccc;
+            background-color: #a5d4f9;
+        }
+        .day{
+            width:100px;
+            height:60px;
+            border: 1px solid #ccc;
+        }
+
+    </style>
 	<title>日历 | ToDo List</title>
 
 	<script>
@@ -98,7 +116,7 @@
 				<ul>
 					<li style="background-color: #F0F0F0;" onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
 					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
-					<li onclick="window.location.href='/calendarfunc/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
 					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
 				</ul>
@@ -129,31 +147,57 @@
 	<div id="content">
         <br/><br/><br/><br/>
 	    <div id="calendar">
-			<table border="1">
-				<tr>
-				<td colspan="7">
-				<input id="yearinput" type="text" size="4" MAXLENGTH="4" onchange="updateDate('{{ RR }}')"/>年
-				<input id="monthinput" type="text" size="2" MAXLENGTH="2" onchange="updateDate('{{ RR }}')"/>月  <span onclick="updateDate('{{ RR }}')" style="cursor: pointer;">更新</span></td>
-				</tr>
-				<tr>
-				<td class="week1">日</td><td class="week1">一</td><td class="week1">二</td><td class="week1">三</td><td class="week1">四</td><td class="week1">五</td><td class="week1">六</td>
-				</tr>
-				<tr>
-				<td id="0-0" class="week2"><div class="date1"></div></td><td id="0-1"><div class="date1"></div></td><td id="0-2"><div class="date1"></div></td><td id="0-3"><div class="date1"></div></td><td id="0-4"><div class="date1"></div></td><td id="0-5"><div class="date1"></div></td><td id="0-6"><div class="date1"></div></td>
-				</tr>
-				<tr>
-				<td id="1-0" class="week2"><div class="date1"></div></td><td id="1-1"><div class="date1"></div></td><td id="1-2"><div class="date1"></div></td><td id="1-3"><div class="date1"></div></td><td id="1-4"><div class="date1"></div></td><td id="1-5"><div class="date1"></div></td><td id="1-6"><div class="date1"></div></td>
-				</tr>
-				<tr>
-				<td id="2-0" class="week2"><div class="date1"></div></td><td id="2-1"><div class="date1"></div></td><td id="2-2"><div class="date1"></div></td><td id="2-3"><div class="date1"></div></td><td id="2-4"><div class="date1"></div></td><td id="2-5"><div class="date1"></div></td><td id="2-6"><div class="date1"></div></td>
-				</tr>
-				<tr>
-				<td id="3-0" class="week2"><div class="date1"></div></td><td id="3-1"><div class="date1"></div></td><td id="3-2"><div class="date1"></div></td><td id="3-3"><div class="date1"></div></td><td id="3-4"><div class="date1"></div></td><td id="3-5"><div class="date1"></div></td><td id="3-6"><div class="date1"></div></td>
-				</tr>
-				<tr>
-				<td id="4-0" class="week2"><div class="date1"></div></td><td id="4-1"><div class="date1"></div></td><td id="4-2"><div class="date1"></div></td><td id="4-3"><div class="date1"></div></td><td id="4-4"><div class="date1"></div></td><td id="4-5"><div class="date1"></div></td><td id="4-6"><div class="date1"></div></td>
-				</tr>
-			</table>
+			<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/prev/">&lt;&lt; Prev</a>
+<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/next/">Next &gt;&gt;</a>
+
+<h4>{{ year }}年{{ month }}月 </h4>
+
+<div class="month" style="border: 2px solid #ccc;width:800px;margin:auto auto;">
+    <table>
+
+    <tr>
+        <td class="empty">Mon</td>
+        <td class="empty">Tue</td>
+        <td class="empty">Wed</td>
+        <td class="empty">Thu</td>
+        <td class="empty">Fri</td>
+        <td class="empty">Sat</td>
+        <td class="empty">Sun</td>
+    </tr>
+
+    {% for week in month_days %}
+        <tr>
+        {% for day, entries, current in week %}
+
+            <!-- TD style: empty | day | current; onClick handler and highlight  -->
+            <td class= {% if day == 0 %}"empty"{% endif %}{% if day != 0 and not current %}"day"{% endif %}{% if day != 0 and current %}"current"{% endif %}{% if day != 0 %}onmouseover="this.bgColor='#eeeeee';"onmouseout="this.bgColor='white';"{% endif %} >
+
+            <!-- Day number and entry snippets -->
+            <div style="position: relative;">
+            {% if day != 0 %}
+                <div style="display:inline-block;position: absolute;top:-25px;left:5px;width:15px;height:15px;">{{ day }}</div>
+               <div style="display: inline-block;position: absolute;top:-20px;left:5px;;"> {% for entry in entries %}
+                    <br/>
+                        {% ifequal entry.pri 2 %}
+                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" style="color:red;">{{ entry.title}}</a>
+                        {% endifequal %}
+                        {% ifequal entry.pri 1 %}
+                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" style="color:orange;">{{ entry.title}}</a>
+                        {% endifequal %}
+                        {% ifequal entry.pri 0%}
+                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}">{{entry.title}}</a>
+                        {% endifequal %}
+                {% endfor %}</div>
+            {% endif %}
+            </div>
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+
+    <div class="clear"></div>
+</div>
 		</div>
 
 

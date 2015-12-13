@@ -194,7 +194,7 @@
 				<ul>
 					<li style="background-color: #F0F0F0;" onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
 					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
-					<li onclick="window.location.href='/calendarfunc/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
 					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
 				</ul>
@@ -239,28 +239,53 @@
             </tr>
             <tr>
                 <td class="titlef">性别:</td>
-                <td class="oneinfo"><select class="form_input" name="gender">
-                    {% ifequal gender "未填写" %}
-                    <option name="gender" value="未填写" selected>未填写
-                    <option name="gender" value="男" >男
-                    <option name="gender" value="女" >女
-                    {% endifequal %}
-                    {% ifequal gender '男' %}
-                    <option name="gender" value="未填写"  >未填写
-                    <option name="gender" value="男" selected>男
-                    <option name="gender" value="女">女
-                    {% endifequal %}
-                    {% ifequal gender '女' %}
-                    <option name="gender" value="未填写">未填写
-                    <option name="gender" value="男">男
-                    <option name="gender" value="女" selected>女
-                    {% endifequal %}
-                </select></td>
+                <td class="oneinfo">
+					{% ifequal gender '男' %}
+					<input name="gender" id="man" type="radio" value="男"  checked/>
+					<label for="man">男</label> 
+					<input name="gender" id="woman" type="radio" value="女" />
+					<label for="woman">女</label> 
+					<input name="gender" id="unknown" type="radio" value="保密" />
+					<label for="woman">保密</label> 
+					{% endifequal %}
+					{% ifequal gender '女' %}
+					<input name="gender" id="man" type="radio" value="男" />
+					<label for="man">男</label> 
+					<input name="gender" id="woman" type="radio" value="女"  checked/>
+					<label for="woman">女</label> 
+					<input name="gender" id="unknown" type="radio" value="保密" />
+					<label for="woman">保密</label> 
+					{% endifequal %}
+					{% ifequal gender '保密' %}
+					<input name="gender" id="man" type="radio" value="男" />
+					<label for="man">男</label> 
+					<input name="gender" id="woman" type="radio" value="女" />
+					<label for="woman">女</label> 
+					<input name="gender" id="unknown" type="radio" value="保密"  checked/>
+					<label for="woman">保密</label> 
+					{% endifequal %}	
+				</td>
             </tr>
             <tr>
                 <td class="titlef">生日:</td>
                 <td class="oneinfo"><input  class="form_input" name="birth" type="text" value="{{ birth }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
 				</td>
+            </tr>
+			<tr>
+                <td class="titlef">居住地:</td>
+                <td class="oneinfo"><input class="form_input" type="text" name="location" value="{{ location }}"/></td>
+            </tr>
+			<tr>
+                <td class="titlef">学校:</td>
+                <td class="oneinfo"><input class="form_input" type="text" name="school" value="{{ school }}"/></td>
+            </tr>
+			<tr>
+                <td class="titlef">公司:</td>
+                <td class="oneinfo"><input class="form_input" type="text" name="company" value="{{ company }}"/></td>
+            </tr>
+			<tr>
+                <td class="titlef">工作:</td>
+                <td class="oneinfo"><input class="form_input" type="text" name="job" value="{{ job }}"/></td>
             </tr>
             <tr>
                 <td class="titlef"  style="">个性签名:</td>
@@ -411,9 +436,9 @@
                 dd = $("d" + (d + mv));
                 dd.innerHTML = '<a href="###" onclick="settime(' + d + ');return false">' + d + '</a>';
                 if (x.getTime() < today.getTime() || (enddate && x.getTime() > enddate.getTime()) || (startdate && x.getTime() < startdate.getTime())) {
-                    dd.className = 'expire';
-                } else {
                     dd.className = 'default';
+                } else {
+                    dd.className = 'expire';
                 }
                 if (x.getFullYear() == today.getFullYear() && x.getMonth() == today.getMonth() && x.getDate() == today.getDate()) {
                     dd.className = 'today';

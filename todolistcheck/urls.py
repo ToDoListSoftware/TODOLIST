@@ -42,4 +42,7 @@ urlpatterns = patterns('',
     url(r'^UserUpdatepre/(.+)/$', 'userfunc.views.UserUpdatepre'),
     url(r'^UserUpdate/$', 'userfunc.views.UserUpdate'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r"^Calendar/(\d+)/(\d+)/(\d+)/(prev|next)/$", "calendarfunc.views.Calendar"),
+    url(r"^Calendar/(\d+)/(\d+)/(\d+)/$", "calendarfunc.views.Calendar"),
+    url(r"^Calendar/(\d+)/$", "calendarfunc.views.Calendar"),
 )

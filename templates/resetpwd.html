@@ -33,6 +33,7 @@
                 {% ifequal flag 1 %}
                     <p style="color: red; font-size: 14px;"><b>*邮件发送成功,请查看您的邮箱找回密码*</b></p>
                 {% endifequal %}
+				<p id="aboutpwd" style="color: red; font-size: 14px;display:none;">*密码请不要少于6位*</p>
 				<form method="post" action="/ResetPwd/" class="holding" id="signin_form">
 					{% csrf_token %}
                     <input type="hidden" name="uid" value="{{ uid }}" />
@@ -43,16 +44,34 @@
 	                      <input tabindex="2" required="required" type="text"  disabled placeholder="{{ email }}" class="form_input"/>
                   	</div>
                     <div class="input_box">
-	                      <input tabindex="3" required="required" type="text" name="pwd" placeholder="请输入重置密码" class="form_input"/>
-                  	</div>
+	                      <input tabindex="3" onblur="aaa()" id="resetedpwd" required="required" type="text" name="pwd" placeholder="请输入重置密码" class="form_input"/>
+		
+					</div>
                   	<div>
-                        <input type="submit" value="确定" />
+                        <input id="confirm" type="submit" value="确定" />
                     </div>
 				</form>
 			</div>
 		</div>
 	</div>
-
+	<script>
+		function aaa(){
+			var pwd = document.getElementById('resetedpwd');
+			var btn = document.getElementById('confirm');
+			var p = document.getElementById('aboutpwd');
+			if (pwd.value.length < 6)
+			{
+				btn.disabled = true;
+				p.style.display = 'block';
+			}
+			else
+			{
+				btn.disabled = false;
+				p.style.display = 'none';
+			}
+		}
+	</script>
+	
 	<div id="footer">
 		<br/>
 		<p class="copy">

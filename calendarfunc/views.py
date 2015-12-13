@@ -11,8 +11,13 @@ import calendar
 
 def Calendar(request,uid,year=None,month=None,change=None):
     uid= int(uid)
+    if year==None and month ==None:
+        year=datetime.now().year
+        month=datetime.now().month
+    year=int(year)
+    month=int(month)
     if timetest(uid):
-        todaytasks=SearchTaskByDate(1,uid,str(datetime.date.today()))
+        todaytasks=SearchTaskByDate(1,uid,str(datetime.now()))
         l=len(todaytasks)
         updatelogindate(uid)
         uname=SearchUserByID(uid)[1]
@@ -47,16 +52,16 @@ def Calendar(request,uid,year=None,month=None,change=None):
             entries = current = False
             if day:
                 entries=[]
-                result=SearchTaskByDate(1,6,datetime(year,month,day).strftime("%Y-%m-%d"))
+                result=SearchTaskByDate(1,uid,datetime(year,month,day).strftime("%Y-%m-%d"))
                 for row in result:
-                    entries.append((row[0],row[3],row[5]))
+                    entries.append({'id':row[0],'title':row[3],'pri':row[5]})
                 if day == nday and year==nyear and month==nmonth:
                     current = True
             lst[week].append((day,entries,current))
             if len(lst[week])==7:
                 lst.append([])
                 week+=1
-
+        print lst
         return render_to_response('calendar.html',{'month_days':lst,'month':month,'year':year,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2

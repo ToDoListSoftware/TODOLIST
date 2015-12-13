@@ -29,11 +29,15 @@ def register(request):
             id = 1
         name = request.POST.get('name')
         email = request.POST.get('email')
-        gender = ''
+        gender = '保密'
         password = request.POST.get('password')
         fpassword = encode(password)
-        description = ''
+        description = '未填写'
         date = '1000-01-01'
+        location='未填写'
+        school='未填写'
+        company='未填写'
+        job='未填写'
         if name.isalnum():
             if testemail(email):
                 if len(password)>=6:
@@ -46,7 +50,7 @@ def register(request):
                     else:
                         flag = 2
 
-                        WriteUser(id,name,email,gender,fpassword,description,date)
+                        WriteUser(id,name,email,gender,fpassword,description,date,location,school,company,job)
                         newlogin(id)
                         return render_to_response('loginjump.html', {'uid':id}, context_instance=RequestContext(request))#注册成功
                 else:
@@ -124,8 +128,14 @@ def ForgetPwd(request):
 def ResetPwdpre(request,uid,skey):
     if Searchresetpwd(int(uid)):
         info=Searchresetpwd(int(uid))
-        if info[2]==skey:
-            Deleteresetpwd(uid)
+        flag=0
+        for row in info:
+            if skey in row:
+                infoline=row
+                flag=1
+                break
+        if flag==1:
+            Deleteresetpwd(infoline[0])
             info=SearchUserByID(uid)
             name=info[1]
             email=info[2]
@@ -140,7 +150,7 @@ def ResetPwd(request):
     pwd= request.POST.get('pwd')
     info = SearchUserByID(int(uid))
     DeleteUser(int(uid))
-    if WriteUser(info[0],info[1],info[2],info[3],encode(pwd),info[5],info[6]):
+    if WriteUser(info[0],info[1],info[2],info[3],encode(pwd),info[5],info[6],info[7],info[8],info[9],info[10]):
         flag = 3
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
     else:
@@ -155,14 +165,19 @@ def UserDetail(request,uid):
         email=info[2]
         gender=info[3]
         if gender == '':
-            gender='未填写'
+            gender='保密'
         des=info[5]
         if des=='':
             des='未填写'
         birth=info[6]
         if birth == datetime.date(1000,01,01):
             birth='未填写'
-
+        else:
+            birth=birth.strftime("%Y-%m-%d")
+        location=info[7]
+        school=info[8]
+        company=info[9]
+        job=info[10]
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
         print uname
         result2=[]
@@ -179,7 +194,7 @@ def UserDetail(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('personinfo.html', {'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
+        return render_to_response('personinfo.html', {'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -201,7 +216,10 @@ def UserUpdatepre(request,uid):
             birth=u'未填写'
         else:
             birth=birth.strftime('%Y-%m-%d')
-
+        location=info[7]
+        school=info[8]
+        company=info[9]
+        job=info[10]
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
         result2=[]
         info1=SearchSituation(uid)
@@ -217,7 +235,7 @@ def UserUpdatepre(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('userupdate.html', {'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
+        return render_to_response('userupdate.html', {'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -230,11 +248,15 @@ def UserUpdate(request):
         gender=request.POST.get('gender')
         des=request.POST.get('des')
         birth=request.POST.get('birth')
+        location=request.POST.get('location')
+        school=request.POST.get('school')
+        company=request.POST.get('company')
+        job=request.POST.get('job')
         if birth==u'未填写':
             birth="1000-01-01"
 
         DeleteUser(uid)
-        WriteUser(uid,info[1],info[2],gender,info[4],des,birth)
+        WriteUser(uid,info[1],info[2],gender,info[4],des,birth,location,school,company,job)
         uname=info[1]
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
         email=info[2]
@@ -253,7 +275,7 @@ def UserUpdate(request):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('personinfo.html', {'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
+        return render_to_response('personinfo.html', {'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
