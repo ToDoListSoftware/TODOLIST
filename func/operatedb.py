@@ -51,6 +51,29 @@ def Init():
                                           userid int not null,\
                                           skey varchar(100),\
                                           PRIMARY KEY(id))CHARSET=utf8;' )
+        cur.execute('create table relationship(id INT PRIMARY key,\
+                                          muid int,\
+                                          suid int,\
+                                          FOREIGN KEY(muid) REFERENCES usertable(userid),\
+                                          FOREIGN KEY (suid) REFERENCES usertable(userid))DEFAULT CHARSET=utf8;' )
+        cur.execute('create table friendrequest(id int PRIMARY KEY NOT NULL ,\
+                                            muid int,\
+                                            suid int,\
+                                            description int,\
+                                            sdate date,\
+                                            tag int,\
+                                            FOREIGN KEY (muid) REFERENCES usertable(userid),\
+                                            FOREIGN KEY (suid) REFERENCES usertable(userid))DEFAULT CHARSET=utf8;' )
+        cur.execute('create table orderrequest(id int PRIMARY KEY NOT NULL ,\
+                                              muid int,\
+                                              suid int,\
+                                              description int,\
+                                              sdate date,\
+                                              period int,\
+                                              tag int,\
+                                              FOREIGN KEY (muid) REFERENCES usertable(userid),\
+                                              FOREIGN KEY (suid) REFERENCES usertable(userid))DEFAULT CHARSET=utf8;')
+
 
         conn.commit()
         cur.close()
@@ -162,18 +185,6 @@ def GetUserIDMax():
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
         cur.execute("select max(userid) as LargestOrderPrice from usertable")
-        info = cur.fetchone()
-        cur.close()
-        conn.close()
-        return info
-    except MySQLdb.Error,e:
-        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
-        return False
-def SearchUserByID(id):
-    try:
-        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
-        cur=conn.cursor()
-        cur.execute("select * from usertable where userid = " + str(id))
         info = cur.fetchone()
         cur.close()
         conn.close()
@@ -503,14 +514,3 @@ def GetresetpwdMax():
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
-
-"""
-s1=SearchTaskLike('title','家')
-s2=SearchTaskLike('title','了')
-result=[]
-result.extend(s1)
-result.extend(s2)
-result=sorted(set(result),key=operator.itemgetter(4))
-print result
-"""
-

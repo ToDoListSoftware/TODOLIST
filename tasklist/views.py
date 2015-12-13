@@ -56,7 +56,6 @@ def TodayTask(request,uid):
 def TaskFinish(request):
     uid = int(request.POST.get('uid'))
     id = int(request.POST.get('id'))
-    print id
     if timetest(uid):
         updatelogindate(uid)
         UpdateTagById(1,id)
@@ -500,7 +499,9 @@ def searchtask(request):
         result=[]
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
         uname=SearchUserByID(uid)[1]
+        tag=0
         for row in tasks:
+            tag=0
             id = row[0]
             title = row[3]
             date =  row[4]
@@ -511,7 +512,6 @@ def searchtask(request):
             pri=row[5]
             newnode = {'id1':id, 'title1':title, 'date1':date, 'pri1':pri,"tag1":tag}
             result.append(newnode)
-        print result
         result2=[]
         info=SearchSituation(uid)
         if len(info)==0:
@@ -531,7 +531,7 @@ def searchtask(request):
         else:
             flag1 = 1
 
-        return render_to_response('searchresult.html',{'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l,'string':string,'flag2':flag2}, context_instance=RequestContext(request))
+        return render_to_response('searchresult.html',{'tag':tag,'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l,'string':string,'flag2':flag2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -615,6 +615,11 @@ def ChangeTaskpre(request):
         location=info[6]
         desc=info[7]
         tag=info[8]
+        sid=info[9]
+        if sid==None:
+            situ=u'无'
+        else:
+            situ=SearchOneSituation(int(uid),sid)[2]
         result2=[]
         info=SearchSituation(uid)
         if len(info)==0:
@@ -625,7 +630,7 @@ def ChangeTaskpre(request):
                 stitle=i[2]
                 newnode={'sid':sid,'stitle':stitle}
                 result2.append(newnode)
-        return render_to_response("updatetask.html",{"uid":int(uid),'tid':tid,'uname':name,"id":int(id),"title":title,"date":date,"pri":priority,"location":location,"des":desc,"tag":tag,"result2":result2}, context_instance=RequestContext(request))
+        return render_to_response("updatetask.html",{"situ1":situ,"uid":int(uid),'tid':tid,'uname':name,"id":int(id),"title":title,"date":date,"pri":priority,"location":location,"des":desc,"tag":tag,"result2":result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -665,3 +670,4 @@ def DeleteSituation(request,sid,uid):
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
+

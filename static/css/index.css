@@ -532,6 +532,23 @@ h3 div a:hover{
 	display: block;
 }
 
+/*日历*/
+.week1{
+	width:100px;
+	height:10px;
+}
+.week2{
+	height:80px;
+}
+.date1{
+	display: inline-block;
+	position: relative;
+	height:15px;
+	width:15px;
+	left:40px;
+	top:-30px;
+}
+
 /*页脚*/
 #footer{
 	background: #F7F7F7; 

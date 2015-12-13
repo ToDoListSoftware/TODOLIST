@@ -104,7 +104,7 @@ def ForgetPwd(request):
             info=SearchUserByEmail(email)
             uid=info[0]
             skey=createskey()
-            url="www.baidu.com/ResetPwd/uid"+str(uid)+"skey"+skey
+            url="127.0.0.1:8000/ResetPwd/uid"+str(uid)+"skey"+skey
             if GetresetpwdMax()[0]==None:
                 id =1
             else:
@@ -164,7 +164,7 @@ def UserDetail(request,uid):
             birth='未填写'
 
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
-
+        print uname
         result2=[]
         info1=SearchSituation(uid)
         if len(info1)==0:
@@ -203,7 +203,6 @@ def UserUpdatepre(request,uid):
             birth=birth.strftime('%Y-%m-%d')
 
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
-
         result2=[]
         info1=SearchSituation(uid)
         if len(info1)==0:
@@ -227,7 +226,7 @@ def UserUpdate(request):
     if timetest(uid):
         updatelogindate(uid)
         info=SearchUserByID(uid)
-        uname=request.POST.get('uname')
+
         gender=request.POST.get('gender')
         des=request.POST.get('des')
         birth=request.POST.get('birth')
@@ -236,7 +235,7 @@ def UserUpdate(request):
 
         DeleteUser(uid)
         WriteUser(uid,info[1],info[2],gender,info[4],des,birth)
-
+        uname=info[1]
         l=len(SearchTaskByDate(1,uid,str(datetime.date.today())))
         email=info[2]
 

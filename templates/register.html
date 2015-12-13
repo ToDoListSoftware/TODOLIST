@@ -3,9 +3,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="shortcut icon" href="todo.png" type="image/x-icon"/>
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
 	<link rel="stylesheet" href="{% static "css/register_login.css" %}" type="text/css"/>
-	<title>登录 | ToDo List</title>
+	<title>注册 | ToDo List</title>
 
     <script>
         function isaccepted(){
@@ -63,13 +63,13 @@
 				<form method="post" action="/register/" class="holding" id="signin_form">
 					{% csrf_token %}
                     <div class="input_box">
-	                      <input id="username" tabindex="1" required type="text" name="name" placeholder="用户名" class="form_input"/>
+	                      <input id="username" tabindex="1" required type="text" name="name" placeholder="用户名*" class="form_input"/>
                   	</div>
                   	<div class="input_box">
-	                       <input id="user_username" tabindex="2" required type="text" name="email" placeholder="电子邮箱" class="form_input"/>
+	                       <input id="user_username" tabindex="2" required type="text" name="email" placeholder="电子邮箱*" class="form_input"/>
                   	</div>
                   	<div class="input_box">
-	                      <input id="login_password" tabindex="3" required type="password" placeholder="密码" name="password" class="form_input"/>
+	                      <input id="login_password" tabindex="3" required type="password" placeholder="密码*(不小于6位)" name="password" class="form_input"/>
 	                </div>
 	                <div class="input_box">
 	                	<div id ="agree">

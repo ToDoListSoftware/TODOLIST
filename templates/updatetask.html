@@ -243,12 +243,18 @@
 				</div>
                 <div class="input_box">
 				<label style="font-size: 14px;">情境</label>
-					<select name="situation" class="form_input" style="background: #fff;">
-                        <option value="">无
+					<select name="situation" value="{{ situ1 }}" class="form_input" style="background: #fff;">
+                        {% ifequal situ1 "无" %}
+                        <option selected value="">无
+                        {% else %}
+                         <option value="">无
+                        {% endifequal %}
                         {% for situ in result2 %}
-                            <option value="{{ situ.sid }}">
+                            {% ifequal situ1 situ.stitle %}
+                            <option selected value="{{ situ.sid }}">{% else %}<option value="{{ situ.sid }}">
+                            {% endifequal %}
                             <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';">{{ situ.stitle }}</li>
-                        {% endfor %}
+                            {% endfor %}
 				    </select>
 				</div><br/>
             <input type="submit" value="保存" /></form><br/><br/><br/>

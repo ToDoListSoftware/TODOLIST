@@ -96,7 +96,7 @@
 				<ul>
 					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
 					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
-					<li onclick="window.location.href='/calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/calendarfunc/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
 					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
 				</ul>
@@ -158,7 +158,7 @@
             <ul>
                 {% ifequal flag1 1 %}
                 {% for situ in result2 %}
-                    <li class="setoverflow" title="{{ situ.stitle }}" style="width:300px; text-align:left;font-size: 16px;">{{ situ.stitle }}</li><a style="color:red; font-size: 16px;" href="/DeleteSituation/sid{{ situ.sid }}uid{{ uid }}">X</a><br>
+                    <li title="{{ situ.stitle }}" style="width:600px; text-align:left;font-size: 16px;">{{ situ.stitle }}<a style="color:red;float:right; font-size: 16px;" href="/DeleteSituation/sid{{ situ.sid }}uid{{ uid }}">X</a></li><br>
                 {% endfor %}
                 {% else %}
                 <li style="font-size: 18px;">暂无</li><br/>

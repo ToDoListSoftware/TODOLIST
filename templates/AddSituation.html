@@ -166,7 +166,7 @@
 				</div>
 				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
 					<ul>
-							<li><a style="cursor:pointer;">个人信息</a></li>
+							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
 							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">常见问题</a></li>
 							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
 						</ul>
@@ -190,7 +190,7 @@
 				<ul>
 					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
 					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
-					<li onclick="window.location.href='/calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/calendarfunc/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
 					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
 				</ul>
@@ -224,7 +224,7 @@
                 {% csrf_token %}
                 <br/><br/>
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<div class="input_box"><input name="title"  type="text" placeholder="情境名称" class="form_input" /></div>
+				<div class="input_box"><input name="title" maxlength="15" type="text" placeholder="情境名称" class="form_input" /></div>
 				<br/><br/>
                 <div>
 					<input type="submit" value="添加" />

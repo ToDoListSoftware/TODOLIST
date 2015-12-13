@@ -1,2 +1,12 @@
-name: test1234hit
+name: todolistcheck
 version: 1
+
+libraries:
+- name:"django"
+  version:"1.7.2"
+
+handlers:
+- url:/static
+  static_dir:static
+
+
