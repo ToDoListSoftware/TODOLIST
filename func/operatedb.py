@@ -3,7 +3,7 @@ _author_='shishuangwei'
 import operator
 import MySQLdb
 #import sae.const
-
+"""
 HOST = 'localhost'
 PORT = 3306
 USER = 'root'
@@ -18,7 +18,7 @@ USER = sae.const.MYSQL_USER
 PASSWORD = sae.const.MYSQL_PASS
 DBNAME = sae.const.MYSQL_DB
 CHARSET = 'utf8'
-"""
+
 def Init():
     try:
         conn = MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, charset = CHARSET )

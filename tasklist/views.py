@@ -658,7 +658,7 @@ def ChangeTask(request):
             situ=int(situation)
         if timetest(int(uid)):
             DeleteTask(int(id))
-            WriteTask(int(id),int(tid),int(uid),title,sdate,priority,location,des,tag,situ)
+            WriteTask(int(id),int(tid),int(uid),title,sdate,priority,location,des,tag,situ,info[10],info[11],info[12])
             return HttpResponseRedirect('/TaskDetail/id'+id+'uid'+uid+'/')
     else:
         flag = 2

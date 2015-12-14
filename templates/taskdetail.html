@@ -63,7 +63,7 @@
 		<div id="top_bar">
 
 			<div class="l-header">
-                <div id="logo2"><img src="{% static "images/logo2.png" %}" /></div>
+                <div id="logo2"><a href="/TodayTask/{{ uid }}"><img src="{% static "images/logo2.png" %}" /></a></div>
 				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option1/';"><img src="{% static "images/plus1.png" %}" /></div>
             </div>
             <div class="r-header" >
@@ -129,9 +129,9 @@
         <a style="width: 80px; font-size:15px; float:left;" onclick="javascript:window.history.back(-1);"> < 返回</a>
         <br/><br/><div style="border-bottom: 2px solid #E5E5E5; margin-left: 15px;"></div>
         {% ifequal tag1 0 %}
-            <span style="color:orange; position: relative;top:20px; left:-450px;">{{ sdate }}</span>
+            <span style="color:orange; position: relative;top:20px; left:-436px;">{{ sdate }}</span>
         {% else %}
-            <span style="color:orange; position: relative;top:20px; left:-450px;">Future</span>
+            <span style="color:orange; position: relative;top:20px; left:-436px;">Future</span>
         {% endifequal %}
         <span style="color:cornflowerblue; position: relative;top:20px; left:-430px;">#{{ location }}</span><br/><br/><br/><br/>
         <p style="text-align: left; font-size: 24px; margin-left: 60px;"><b>{{ title }}</b></p><br/><br/>
@@ -160,7 +160,7 @@
         <form method="post" action="/ChangeTaskpre/">{% csrf_token %}
             <input type="hidden" name="uid" value="{{ uid }}"/>
             <input type="hidden" name="id" value="{{ id }}"/>
-            <input id="upbtn" type="submit"/>
+            <input id="upbtn" value="" type="submit"/>
         </form>
         <div style="border-bottom: 2px dotted #E5E5E5; margin-left: 15px;"></div>
 

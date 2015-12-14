@@ -83,7 +83,7 @@
 		<div id="top_bar">
 
 			<div class="l-header">
-                <div id="logo2"><img src="{% static "images/logo2.png" %}" /></div>
+                <div id="logo2"><a href="/TodayTask/{{ uid }}"><img src="{% static "images/logo2.png" %}" /></a></div>
 				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option1/';"><img src="{% static "images/plus1.png" %}" /></div>
             </div>
             <div class="r-header" >
@@ -147,10 +147,10 @@
 	<div id="content">
         <br/><br/><br/><br/>
 	    <div id="calendar">
-			<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/prev/">&lt;&lt; Prev</a>
-<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/next/">Next &gt;&gt;</a>
+			<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/prev/" style="font-size:16px;position:relative;left:-350px;">&lt;&lt; Prev</a>
+<a style="font-size:16px;position:relative;left:350px;" href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/next/">Next &gt;&gt;</a>
 
-<h4>{{ year }}年{{ month }}月 </h4>
+<h4 style="font-size: 20px;">{{ year }}年{{ month }}月 </h4><br/><br/>
 
 <div class="month" style="border: 2px solid #ccc;width:800px;margin:auto auto;">
     <table>

@@ -161,7 +161,7 @@
 		<div id="top_bar">
 
 			<div class="l-header">
-                <div id="logo2"><img src="{% static "images/logo2.png" %}" /></div>
+                <div id="logo2"><a href="/TodayTask/{{ uid }}"><img src="{% static "images/logo2.png" %}" /></a></div>
 				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option1/';"><img src="{% static "images/plus1.png" %}" /></div>
             </div>
             <div class="r-header" >
@@ -289,7 +289,7 @@
             </tr>
             <tr>
                 <td class="titlef"  style="">个性签名:</td>
-                <td><textarea name="des" style="height:180px; width:300px;" id="texta"></textarea></td>
+                <td><textarea name="des" style="height:180px; width:300px; padding: 8px; font-size: 14.5px;" id="texta"></textarea></td>
             </tr>
         </table>
         <input type="submit" value="保存" /><br/><br/>
