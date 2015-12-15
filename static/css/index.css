@@ -154,7 +154,6 @@ div.top_bar_drop_down{
 .sidebar{
 	width: 200px;
 	min-height: 800px;
-	max-height: 1600px;
 	position: relative;
 	border-right: 1px solid #E5E5E5;
 	background-color: #FAFAFA;
@@ -215,10 +214,10 @@ div.top_bar_drop_down{
     height: 20px;
     float: left;
     padding-right: 8px;
-	background-image: url("../images/icons.png");
+	background-image: url("../images/icons1.png");
 	background-repeat: no-repeat;
 	background-color: transparent;
-    background-position: -45px 0px;
+    background-position: -246px -34px;
 }
 
 .sidebar #pic3{
@@ -252,6 +251,61 @@ div.top_bar_drop_down{
 	background-repeat: no-repeat;
 	background-color: transparent;
     background-position: -117px 0px;
+}
+
+.sidebar #pic6{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -212px 0px;
+}
+
+.sidebar #pic7{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -238px -1px;
+}
+
+.sidebar #pic8{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -142px -1px;
+}
+
+.sidebar #pic9{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons1.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -287px -34px;
+}
+
+.sidebar #pic10{
+	width: 18px;
+    height: 20px;
+    float: left;
+    padding-right: 8px;
+	background-image: url("../images/icons1.png");
+	background-repeat: no-repeat;
+	background-color: transparent;
+    background-position: -88px -34px;
 }
 
 /*主体内容*/
@@ -547,6 +601,24 @@ h3 div a:hover{
 	width:15px;
 	left:40px;
 	top:-30px;
+}
+
+.genderpic1{
+	background: url("../images/user.png") no-repeat;
+	width:25px;
+	height:25px;
+}
+
+.genderpic2{
+	background: url("../images/male.png") no-repeat;
+	width:25px;
+	height:25px;
+}
+
+.genderpic3{
+	background: url("../images/female.png") no-repeat;
+	width:25px;
+	height:25px;
 }
 
 /*页脚*/

@@ -45,4 +45,8 @@ urlpatterns = patterns('',
     url(r"^Calendar/(\d+)/(\d+)/(\d+)/(prev|next)/$", "calendarfunc.views.Calendar"),
     url(r"^Calendar/(\d+)/(\d+)/(\d+)/$", "calendarfunc.views.Calendar"),
     url(r"^Calendar/(\d+)/$", "calendarfunc.views.Calendar"),
+    url(r"^SearchUserPre/(\d+)/$","friendfunc.views.SearchUserpre"),
+    url(r"^SearchUser/$","friendfunc.views.SearchUser"),
+    url(r'^FuserInfo/(\d+)/(\d+)/$', 'friendfunc.views.ShowUserDetail'),
+    url(r'^AddFriend/$', 'friendfunc.views.AddFriend'),
 )

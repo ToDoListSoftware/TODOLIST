@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
 	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
+    <script src="{% static "JS/dealsearch.js" %}"></script>
 	<title>今日待办 | ToDo List</title>
 	
 	<script>
@@ -49,7 +50,12 @@
             }
         }
 
-
+        window.onload = function () {
+            var h = document.getElementById('content');
+            var s = document.getElementsByClassName('sidebar')[0];
+            var h1 = h.style.height;
+            s.style.height = h1;
+        }
 
 	</script>	
 </head>
@@ -95,7 +101,7 @@
 				<h3>聚 焦</h3>
 				<ul>
 					<li style="background-color: #F0F0F0;" onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
-					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>课程表</li>
+					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
 					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
 					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
@@ -105,19 +111,26 @@
 				<h3>所有情境  <div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
 				<ul>
                     {% ifequal flag1 0 %}
-                         <li>无</li>
+                         <li><div id="pic8"></div>无</li>
                     {% else %}
                         {% for situ in result2 %}
-                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';">{{ situ.stitle }}</li>
+                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';"><div id="pic8"></div>{{ situ.stitle }}</li>
                         {% endfor %}
                     {% endifequal %}
+				</ul>
+			</li>
+            <li>
+				<h3>好 友</h3>
+				<ul>
+					<li onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
+					<li onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
 				</ul>
 			</li>
 			<li>
 				<h3>完 毕</h3>
 				<ul>
-					<li onclick="window.location.href='/finished/{{ uid }}';">已完成</li>
-					<li onclick="window.location.href='/deleted/{{ uid }}';">垃圾箱</li>
+					<li onclick="window.location.href='/finished/{{ uid }}';"><div id="pic6"></div>已完成</li>
+					<li onclick="window.location.href='/deleted/{{ uid }}';"><div id="pic7"></div>垃圾箱</li>
 				</ul>
 			</li>
 		</ul>
@@ -129,8 +142,8 @@
 			<form method="post" action="/searchtask/">
                 {% csrf_token %}
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" name="word" placeholder="搜索任务" class="input-box"/>
-				<input type="submit" value="" class="search-btn"/>
+				<input type="text"  name="word" placeholder="搜索任务" class="input-box" id="wanttosearch" />
+				<input type="submit" value="" id="startsearch" class="search-btn"/>
 			</form>
 		</div>
 		

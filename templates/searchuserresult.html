@@ -1,0 +1,243 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
+	<title>今日待办 | ToDo List</title>
+    <style type="text/css">
+    .popWindow{
+        background-color:#ffffff;
+        border-radius:3px;
+        border:2px solid #075E8B;
+        position:absolute;
+        width:308px;
+        height:220px;
+        top:-40px;
+        left:250px;
+        display:none;
+        box-shadow:5px 5px 5px #322E2F;
+        z-index:999;
+    }
+</style>
+	<script>
+        function showdel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'block';
+            }
+        }
+        function hidedel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'none';
+            }
+        }
+		function showdropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'block';
+		}
+		function hidedropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'none';
+		}
+        function changetag(){
+            var box = document.getElementsByClassName('check');
+            for(var i=0; i<box.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid');
+                    f[i].submit();
+                }
+            }
+        }
+
+
+        window.onload = function () {
+            var h = document.getElementById('content');
+            var s = document.getElementsByClassName('sidebar')[0];
+            var h1 = h.style.height;
+            s.style.height = h1;
+        }
+
+	</script>
+</head>
+
+
+
+
+<body>
+    <div style="width:100%;height:100%;background-color:gray;opacity:0.75;z-index:100;position:absolute;display:none;left:0px;top:0px;"id="popWindowBg"></div>
+
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+
+			<div class="l-header">
+                <div id="logo2"><a href="/TodayTask/{{ uid }}"><img src="{% static "images/logo2.png" %}" /></a></div>
+				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option1/';"><img src="{% static "images/plus1.png" %}" /></div>
+            </div>
+            <div class="r-header" >
+				<div id="avatar"></div>
+            	<div class="username" onclick="showdropdown()" style="cursor:pointer"><div id="name" style="display:inline-block;"><a style="color:white;">欢迎，{{ uname }}</a></div>
+				</div>
+				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
+					<ul>
+							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
+							<li><a style="cursor:pointer;">常见问题</a></li>
+							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
+						</ul>
+					</div>
+
+			</div>
+    	</div>
+	</div>
+
+	<!--侧边栏-->
+	<div class="sidebar" style="height:100%;">
+		<ul>
+			<li>
+				<h3>收 藏</h3>
+				<ul>
+					<li onclick="window.location.href='/CollectedTask/{{ uid }}';"><div id="pic0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收集箱</div></li>
+				</ul>
+			</li>
+			<li>
+				<h3>聚 焦</h3>
+				<ul>
+					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
+					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
+					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
+					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
+				</ul>
+			</li>
+			<li>
+				<h3>所有情境  <div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
+				<ul>
+                    {% ifequal flag1 0 %}
+                         <li><div id="pic8"></div>无</li>
+                    {% else %}
+                        {% for situ in result2 %}
+                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';"><div id="pic8"></div>{{ situ.stitle }}</li>
+                        {% endfor %}
+                    {% endifequal %}
+				</ul>
+			</li>
+            <li>
+				<h3>好 友</h3>
+				<ul>
+					<li style="background-color: #F0F0F0;"  onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
+					<li onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
+				</ul>
+			</li>
+			<li>
+				<h3>完 毕</h3>
+				<ul>
+					<li onclick="window.location.href='/finished/{{ uid }}';"><div id="pic6"></div>已完成</li>
+					<li onclick="window.location.href='/deleted/{{ uid }}';"><div id="pic7"></div>垃圾箱</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<!--主体-->
+	<div id="content">
+		<div id="search">
+			<form method="post" action="/SearchUser/">
+                {% csrf_token %}
+                <input type="hidden" name="uid" value="{{ uid }}" />
+				<input type="text" value="{{ keyword }}" name="keyword" placeholder="搜索用户" class="input-box"/>
+				<input type="submit" value="" class="search-btn"/>
+			</form>
+		</div>
+        <br/><br/><br/><br/><br/><br/><br/>
+        <div id="searchuserresult">
+            <div style="font-size:18px; position:absolute;top:100px;left:50px;">共搜索到&nbsp;&nbsp;<span style="font-size:25px;color:orange">{{ usernum }}</span>&nbsp;&nbsp;个用户:</div>
+            <div id="task" style="height:100%">
+                {% for user in fuserlist %}
+                    <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
+                        <form method="post" action="/AddFriend/">
+                        {% csrf_token %}
+                        <div class="task-date" style="position: relative;">
+                            {% ifequal user.gender '保密' %}
+                            <div class="genderpic1" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                            {% endifequal %}
+                            {% ifequal user.gender '男' %}
+                            <div class="genderpic2" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                            {% endifequal %}
+                            {% ifequal user.gender '女' %}
+                            <div class="genderpic3" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                            {% endifequal %}
+                        </div>
+
+                        <div id="del-btn" style="position: relative;">
+
+                            <input style="position: absolute; top:0px;left:850px" type="button" value="发送好友申请" class="delbtn" onclick="popWindowShow('发送好友申请',this)"/>
+                            <input type="hidden" name="uid" value="{{ uid }}" />
+                            <input type="hidden" name="keyword" value="{{ keyword }}"/>
+                            <input type="hidden" name="fuid" id="fuck" value="" />
+                            <div class="popWindow"id="popWindow">
+                            <table style="width:100%;line-height:22px;"cellspacing="0"cellpadding="0">
+                                <tr style="background-color:#075E8B;">
+                                    <td style="color:white;font-family:bolder;font-size:10pt;"id="titleTd">好友申请</td>
+                                </tr>
+                            </table>
+                                <textarea name="desc" placeholder="请输入验证信息" style="margin:10px 45px;height:120px; width:200px; padding: 8px; font-size: 14.5px;"></textarea>
+
+
+
+                                <input style="position: relative;left:60px;top:5px;" type="submit" value="发送" onclick="alerts()"/>
+
+                                <input style="position: relative;left:150px;top:5px;" type="button" value="取消" onclick="popWindowHide()"/>
+
+
+
+                            </div>
+                            <div style="position:absolute;top:-200px;left:-200px;;width:1000px;height:1000px;background-color:black;opacity:0.75;z-index:100;position:absolute;display:none;left:0px;top:0px;"id="popWindowBg"></div>
+                        </form>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+	</div>
+<script type="text/javascript">
+
+function alerts(){
+    popWindowHide();
+    alert("已成功发送好友申请!");
+
+}
+
+function popWindowShow(title,obj)
+{
+var popWindow = document.getElementById("popWindow");
+var popFrame = document.getElementById("popFrame");
+var popWindowBg = document.getElementById("popWindowBg");
+
+document.getElementById("titleTd").innerHTML = title;
+popWindow.style.display ="block";
+popWindowBg.style.display ="block";
+    var o = document.getElementsByClassName("delbtn");
+    for (var i=0;i<o.length ;i++)
+    {
+       j=i+1;
+
+       if(obj==o[i]){
+            var aaa = document.getElementById('fuck');
+            aaa.value = j;
+       }
+    }
+}
+function popWindowHide()
+{
+    document.getElementById("popWindow").style.display ="none";
+    document.getElementById("popWindowBg").style.display ="none";
+
+}
+</script>
+</body>
+</html>

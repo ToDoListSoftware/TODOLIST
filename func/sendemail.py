@@ -15,7 +15,7 @@ def _format_addr(s):
 def sendemail(email,url):
     try:
         #输入Email地址和口令:
-        from_addr = '1055023220@qq.com'
+        from_addr = 'todolist_office@qq.com'
         password = 'woshishuangwei'
         # 输入SMTP服务器地址:
         smtp_server = 'smtp.qq.com'

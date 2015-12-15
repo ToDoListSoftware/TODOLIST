@@ -356,8 +356,12 @@ def AddTask(request):
         edate = request.POST.get('edate')
         priority = request.POST.get('priority')
         location = request.POST.get('location')
+        if location== None or location=='':
+            location='无'
         situation = request.POST.get('situation')
         des = request.POST.get('des')
+        if des== None or des=='':
+            des='无'
         ordertag=0
         couid=0
         period=0
