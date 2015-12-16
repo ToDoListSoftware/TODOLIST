@@ -5,7 +5,23 @@
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
 	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
-	<title>添加用户 | ToDo List</title>
+    <script src="{% static "JS/dealsearch.js" %}"></script>
+    <script src="{% static "JS/jquery.js" %}"></script>
+	<title>预约 | ToDo List</title>
+
+    <style type="text/css">
+        ul,li{margin: 0;padding: 0;font: 12px normal "宋体", Arial, Helvetica, sans-serif;list-style: none;}
+        #tabbox{ overflow:hidden; margin:50px 50px;}
+        .tab_conbox{border: 1px solid #999;border-top: none;}
+        .tab_con{ display:none;}
+        .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+        .tabs li{cursor: pointer;width:100px;height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+        .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;}
+        .tabs li a:hover {background: #ccc;}
+        .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+        .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+    </style>
 
 	<script>
         function showdel(){
@@ -103,7 +119,7 @@
 					<li onclick="window.location.href='/ShowMessage/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
 					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
-					<li onclick="window.location.href='/MainOrder/{{ uid }}';"><div id="pic5"></div>预约</li>
+					<li style="background-color: #F0F0F0;" onclick="window.location.href='/MainOrder/{{ uid }}';"><div id="pic5"></div>预约</li>
 				</ul>
 			</li>
 			<li>
@@ -121,7 +137,7 @@
             <li>
 				<h3>好 友</h3>
 				<ul>
-					<li style="background-color: #F0F0F0;"  onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
+					<li onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
 					<li onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
 				</ul>
 			</li>
@@ -137,16 +153,68 @@
 
 	<!--主体-->
 	<div id="content">
-		<div id="search">
-			<form method="post" action="/SearchUser/">
-                {% csrf_token %}
-                <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" name="keyword" placeholder="搜索用户" class="input-box"/>
-				<input type="submit" value="" class="search-btn"/>
-			</form>
-		</div>
+        <div id="tabbox">
+            <ul class="tabs" id="tabs">
+               <li>我要预约</li>
+               <li>预约成功</li>
+            </ul>
+            <ul class="tab_conbox" id="tab_conbox">
+                <li style="display: none;width:1000px;" class="tab_con">
+                   <div style="width:750px;height:500px;">
+                       <div style="position: relative;left:-220px;top:5px;font-size: 17px;color: #075E8B"><span style="font-size: 20px;"><b>Step One:</b></span>&nbsp;&nbsp;&nbsp;请选择您想预约的好友</div>
+                       <div id="task" style="height:100% position: relative;">
+                            {% for user in friendlist %}
+                                <div style="position: relative;left:-30px;top:-50px; width:90%;">
+                                <div class="task-item" style="">
+                                    <div class="task-date" style="position: relative;">
+                                        {% ifequal user.gender '保密' %}
+                                            <div class="genderpic1" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                                        {% endifequal %}
+                                        {% ifequal user.gender '男' %}
+                                            <div class="genderpic2" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                                        {% endifequal %}
+                                        {% ifequal user.gender '女' %}
+                                            <div class="genderpic3" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                                        {% endifequal %}
+                                    </div>
+                                </div>
+                                <div style="display:inline-block;float:right;margin-right:20px;position: relative;left:0px;top:-35px;"><button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid }}';">预约TA</button></div>
+                            </div>{% endfor %}
+                        </div>
+                   </div>
+                </li>
 
-
+                <li style="display: none;" class="tab_con">
+                    <div style="width:750px;height:500px;">
+                   </div>
+                </li>
+            </ul>
+        </div>
 	</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+		$(tab_conbox).find("li").hide();
+		$(tabtit).find("li:first").addClass("thistab").show();
+		$(tab_conbox).find("li:first").show();
+
+		$(tabtit).find("li").bind(shijian,function(){
+		  $(this).addClass("thistab").siblings("li").removeClass("thistab");
+			var activeindex = $(tabtit).find("li").index(this);
+			$(tab_conbox).children().eq(activeindex).show().siblings().hide();
+			return false;
+		});
+
+	};
+	/*调用方法如下：*/
+	$.jqtab("#tabs","#tab_conbox","click");
+
+	$.jqtab("#tabs2","#tab_conbox2","mouseenter");
+
+});
+</script>
 </body>
 </html>

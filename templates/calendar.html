@@ -9,20 +9,34 @@
     <script src="{% static "JS/calendar_js.js" %}"></script>
     <style>
         .empty{
-            width:100px;
-            height:60px;
+            width:120px;
+            height:80px;
         }
         .current{
-            width:100px;
-            height:60px;
+            width:120px;
+            height:80px;
             border: 1px solid #ccc;
             background-color: #a5d4f9;
+			
+			
         }
         .day{
-            width:100px;
-            height:60px;
+            width:120px;
+            height:80px;
             border: 1px solid #ccc;
         }
+		.calendarbug{
+			height:80px;
+			width: 85%;
+			line-height: 20px;
+			cursor: pointer;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow-x: hidden;
+			overflow-y:auto;
+            text-align: left;
+            padding-left:15px;
+		}
 
     </style>
 	<title>日历 | ToDo List</title>
@@ -120,10 +134,10 @@
 				<h3>聚 焦</h3>
 				<ul>
 					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
-					<li onclick="window.location.href='/curriculum/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
+					<li onclick="window.location.href='/ShowMessage/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
 					<li style="background-color: #F0F0F0;" onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
 					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
-					<li onclick="window.location.href='/appointment/{{ uid }}';"><div id="pic5"></div>预约</li>
+					<li onclick="window.location.href='/MainOrder/{{ uid }}';"><div id="pic5"></div>预约</li>
 				</ul>
 			</li>
 			<li>
@@ -156,25 +170,25 @@
 	</div>
 
 	<!--主体-->
-	<div id="content">
+	<div id="content" >
         <br/><br/><br/><br/>
 	    <div id="calendar">
-			<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/prev/" style="font-size:16px;position:relative;left:-350px;">&lt;&lt; Prev</a>
-<a style="font-size:16px;position:relative;left:350px;" href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/next/">Next &gt;&gt;</a>
+			<a href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/prev/" style="font-size:16px;position:relative;left:-350px;color:rgb(35,98,147);">&lt;&lt; Prev</a>
+<a style="color:rgb(35,98,147);font-size:16px;position:relative;left:350px;" href= "/Calendar/{{ uid }}/{{ year }}/{{ month }}/next/">Next &gt;&gt;</a>
 
 <h4 style="font-size: 20px;">{{ year }}年{{ month }}月 </h4><br/><br/>
 
-<div class="month" style="border: 2px solid #ccc;width:800px;margin:auto auto;">
+<div class="month" style="border: 2px solid #ccc;width:900px;margin:auto auto;">
     <table>
 
     <tr>
-        <td class="empty">Mon</td>
-        <td class="empty">Tue</td>
-        <td class="empty">Wed</td>
-        <td class="empty">Thu</td>
-        <td class="empty">Fri</td>
-        <td class="empty">Sat</td>
-        <td class="empty">Sun</td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Mon</span></td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Tue</span></td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Wed</span></td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Thu</span></td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Fri</span></td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Sat</span></td>
+        <td class="empty"><span style="color:rgb(35,98,147)">Sun</span></td>
     </tr>
 
     {% for week in month_days %}
@@ -185,19 +199,19 @@
             <td class= {% if day == 0 %}"empty"{% endif %}{% if day != 0 and not current %}"day"{% endif %}{% if day != 0 and current %}"current"{% endif %}{% if day != 0 %}onmouseover="this.bgColor='#eeeeee';"onmouseout="this.bgColor='white';"{% endif %} >
 
             <!-- Day number and entry snippets -->
-            <div style="position: relative;">
+            <div style="position: relative;" >
             {% if day != 0 %}
-                <div style="display:inline-block;position: absolute;top:-25px;left:5px;width:15px;height:15px;">{{ day }}</div>
-               <div style="display: inline-block;position: absolute;top:-20px;left:5px;;"> {% for entry in entries %}
+                <div style="display:inline-block;position: absolute;top:-39px;left:5px;width:15px;height:15px;color:rgb(35,98,147)">{{ day }}</div>
+               <div class="calendarbug" style="display: inline-block;position: absolute;top:-39px;left:5px;;"> {% for entry in entries %}
                     <br/>
                         {% ifequal entry.pri 2 %}
-                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" style="color:red;">{{ entry.title}}</a>
+                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" title="{{entry.title}}" style="color:red;">{{ entry.title}}</a>
                         {% endifequal %}
                         {% ifequal entry.pri 1 %}
-                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" style="color:orange;">{{ entry.title}}</a>
+                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" style="color:orange;" title="{{entry.title}}">{{ entry.title}}</a>
                         {% endifequal %}
                         {% ifequal entry.pri 0%}
-                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}">{{entry.title}}</a>
+                        <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}"title="{{entry.title}}">{{entry.title}}</a>
                         {% endifequal %}
                 {% endfor %}</div>
             {% endif %}
@@ -215,7 +229,6 @@
 
 
 	</div>
-
 
 
 

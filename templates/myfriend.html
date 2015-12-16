@@ -1,12 +1,26 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
 	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
-	<title>添加用户 | ToDo List</title>
-
+	<title>我的好友 | ToDo List</title>
+    <style type="text/css">
+    .popWindow{
+        background-color:#ffffff;
+        border-radius:3px;
+        border:2px solid #075E8B;
+        position:absolute;
+        width:308px;
+        height:220px;
+        top:-40px;
+        left:250px;
+        display:none;
+        box-shadow:5px 5px 5px #322E2F;
+        z-index:999;
+    }
+</style>
 	<script>
         function showdel(){
             var btn = document.getElementsByClassName('delbtn');
@@ -38,16 +52,7 @@
                 }
             }
         }
-        function del(){
-            var bts = document.getElementsByClassName('delbtn');
-            for(var i=0; i<bts.length; i++){
-                if (box[i].checked == true)
-                {
-                    var f = document.getElementsByClassName('formid2');
-                    f[i].submit();
-                }
-            }
-        }
+
 
         window.onload = function () {
             var h = document.getElementById('content');
@@ -63,6 +68,8 @@
 
 
 <body>
+    <div style="width:100%;height:100%;background-color:gray;opacity:0.75;z-index:100;position:absolute;display:none;left:0px;top:0px;"id="popWindowBg"></div>
+
 	<!--顶部-->
 	<div id="top">
 		<div id="top_bar">
@@ -88,7 +95,7 @@
 	</div>
 
 	<!--侧边栏-->
-	<div class="sidebar">
+	<div class="sidebar" style="height:100%;">
 		<ul>
 			<li>
 				<h3>收 藏</h3>
@@ -121,8 +128,8 @@
             <li>
 				<h3>好 友</h3>
 				<ul>
-					<li style="background-color: #F0F0F0;"  onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
-					<li onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
+					<li onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
+					<li style="background-color: #F0F0F0;"  onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
 				</ul>
 			</li>
 			<li>
@@ -138,15 +145,81 @@
 	<!--主体-->
 	<div id="content">
 		<div id="search">
-			<form method="post" action="/SearchUser/">
+			<form method="post" action="/SearchFriend/">
                 {% csrf_token %}
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" name="keyword" placeholder="搜索用户" class="input-box"/>
+				<input type="text" value="{{ keyword }}" name="keyword" placeholder="查找我的好友" class="input-box"/>
 				<input type="submit" value="" class="search-btn"/>
 			</form>
 		</div>
+        <br/><br/><br/><br/><br/><br/><br/>
+        <div id="searchuserresult">
+            {% ifequal flag2 1 %}
+                <div style="font-size:18px; position:absolute;top:100px;left:50px;">搜索到好友信息如下:</div>
+            {% else %}
+                <div style="font-size:18px; position:absolute;top:100px;left:50px;">您一共有&nbsp;&nbsp;<span style="font-size:25px;color:orange">{{ friendnum }}</span>&nbsp;&nbsp;位好友:</div>
+            {% endifequal %}
 
+            <div id="task" style="height:100% position: relative;">
+                {% for user in friendlist %}
+                    <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
 
+                        {% csrf_token %}
+                        <div class="task-date" style="position: relative;">
+                            {% ifequal user.gender '保密' %}
+                            <div class="genderpic1" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                            {% endifequal %}
+                            {% ifequal user.gender '男' %}
+                            <div class="genderpic2" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                            {% endifequal %}
+                            {% ifequal user.gender '女' %}
+                            <div class="genderpic3" style="position: absolute;top:0px;left:0px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
+                            {% endifequal %}
+                        </div>
+                    </div>
+                    {% ifequal flag2 1 %}
+                        <div style="display:inline-block;float:right;position: relative;left:0px;top:-35px;"><button onclick="window.location.href='/DeleteFriend/{{ uid }}/{{ user.fuid }}/3/{{ keyword }}';">删除好友</button><button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid}}';">预约好友</button></div>
+                    {% else %}
+                        <div style="display:inline-block;float:right;position: relative;left:0px;top:-35px;"><button onclick="window.location.href='/DeleteFriend/{{ uid }}/{{ user.fuid }}/0';">删除好友</button><button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid }}';">预约好友</button></div>
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+        </div>
 	</div>
+<script type="text/javascript">
+
+function alerts(){
+    popWindowHide();
+    alert("已成功发送好友申请!");
+
+}
+
+function popWindowShow(title,obj)
+{
+var popWindow = document.getElementById("popWindow");
+var popFrame = document.getElementById("popFrame");
+var popWindowBg = document.getElementById("popWindowBg");
+
+document.getElementById("titleTd").innerHTML = title;
+popWindow.style.display ="block";
+popWindowBg.style.display ="block";
+    var o = document.getElementsByClassName("delbtn");
+    for (var i=0;i<o.length ;i++)
+    {
+       j=i+1;
+
+       if(obj==o[i]){
+            var aaa = document.getElementById('fuck');
+            aaa.value = j;
+       }
+    }
+}
+function popWindowHide()
+{
+    document.getElementById("popWindow").style.display ="none";
+    document.getElementById("popWindowBg").style.display ="none";
+
+}
+</script>
 </body>
 </html>

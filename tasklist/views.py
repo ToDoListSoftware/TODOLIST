@@ -47,7 +47,12 @@ def TodayTask(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('index.html',{'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('index.html',{'len1':l1,'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -98,7 +103,12 @@ def FinishedTask(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('finished.html',{'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('finished.html',{'len1':l1,'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -142,7 +152,12 @@ def CollectedTask(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('collect.html',{'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('collect.html',{'len1':l1,'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -283,7 +298,12 @@ def DeletedTask(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('deleted.html',{'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('deleted.html',{'len1':l1,'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -318,7 +338,12 @@ def FutureTask(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('maybe.html',{'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('maybe.html',{'len1':l1,'flag1':flag1,'result':result, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -343,7 +368,12 @@ def AddTaskpre(request,uid,option):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('addtask.html',{'flag1':flag1,'uname':uname,'uid':uid,'option':option,'len':l,'result2':result2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('addtask.html',{'len1':l1,'flag1':flag1,'uname':uname,'uid':uid,'option':option,'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -428,8 +458,12 @@ def AddSituationpre(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-
-        return render_to_response('addsituation.html',{'flag1':flag1,'uname':uname,'result2':result2,'uid':uid,'len':l}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('addsituation.html',{'len1':l1,'flag1':flag1,'uname':uname,'result2':result2,'uid':uid,'len':l}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -482,7 +516,12 @@ def SituationTask(request,uid,sid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('situationtask.html',{'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l,'sid':sid1}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('situationtask.html',{'len1':l1,'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l,'sid':sid1}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -537,8 +576,12 @@ def searchtask(request):
             flag1 = 0
         else:
             flag1 = 1
-
-        return render_to_response('searchresult.html',{'tag':tag,'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l,'string':string,'flag2':flag2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('searchresult.html',{'len1':l1,'tag':tag,'flag1':flag1,'result':result,'result2':result2,'uname':uname,'uid':uid, 'len':l,'string':string,'flag2':flag2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -602,7 +645,12 @@ def TaskDetail(request,id,uid):
         else:
             flag1 = 1
         per=round(float(num/sum),2)*100
-        return render_to_response("taskdetail.html",{'result2':result2,'flag1':flag1,'l':l,'uname':name,'id':id,'uid':uid,'title':title,'sdate':date,'tag1':tag1,'tag':tag,'priority':priority,'location':location,\
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response("taskdetail.html",{'len1':l1,'result2':result2,'flag1':flag1,'l':l,'uname':name,'id':id,'uid':uid,'title':title,'sdate':date,'tag1':tag1,'tag':tag,'priority':priority,'location':location,\
                                                      'des':desc,'situation':situation,'tag2':tag2,'result':result,'per':per}, context_instance=RequestContext(request))
     else:
         flag = 2

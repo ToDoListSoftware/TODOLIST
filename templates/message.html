@@ -1,0 +1,250 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
+    <script src="{% static "JS/dealsearch.js" %}"></script>
+	<title>今日待办 | ToDo List</title>
+    <style>
+
+    </style>
+
+	<script>
+        function showdel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'block';
+            }
+        }
+        function hidedel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'none';
+            }
+        }
+		function showdropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'block';
+		}
+		function hidedropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'none';
+		}
+        function changetag(){
+            var box = document.getElementsByClassName('check');
+            for(var i=0; i<box.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid');
+                    f[i].submit();
+                }
+            }
+        }
+        function del(){
+            var bts = document.getElementsByClassName('delbtn');
+            for(var i=0; i<bts.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid2');
+                    f[i].submit();
+                }
+            }
+        }
+
+        window.onload = function () {
+            var h = document.getElementById('content');
+            var s = document.getElementsByClassName('sidebar')[0];
+            var h1 = h.style.height;
+            s.style.height = h1;
+        }
+
+	</script>
+</head>
+
+
+
+
+<body>
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+
+			<div class="l-header">
+                <div id="logo2"><a href="/TodayTask/{{ uid }}"><img src="{% static "images/logo2.png" %}" /></a></div>
+				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option1/';"><img src="{% static "images/plus1.png" %}" /></div>
+            </div>
+            <div class="r-header" >
+				<div id="avatar"></div>
+            	<div class="username" onclick="showdropdown()" style="cursor:pointer"><div id="name" style="display:inline-block;"><a style="color:white;">欢迎，{{ uname }}</a></div>
+				</div>
+				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
+					<ul>
+							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
+							<li><a style="cursor:pointer;">常见问题</a></li>
+							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
+						</ul>
+					</div>
+
+			</div>
+    	</div>
+	</div>
+
+	<!--侧边栏-->
+	<div class="sidebar">
+		<ul>
+			<li>
+				<h3>收 藏</h3>
+				<ul>
+					<li onclick="window.location.href='/CollectedTask/{{ uid }}';"><div id="pic0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收集箱</div></li>
+				</ul>
+			</li>
+			<li>
+				<h3>聚 焦</h3>
+				<ul>
+					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
+					<li style="background-color: #F0F0F0;" onclick="window.location.href='/ShowMessage/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
+					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
+					<li onclick="window.location.href='/MainOrder/{{ uid }}';"><div id="pic5"></div>预约</li>
+				</ul>
+			</li>
+			<li>
+				<h3>所有情境  <div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
+				<ul>
+                    {% ifequal flag1 0 %}
+                         <li><div id="pic8"></div>无</li>
+                    {% else %}
+                        {% for situ in result2 %}
+                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';"><div id="pic8"></div>{{ situ.stitle }}</li>
+                        {% endfor %}
+                    {% endifequal %}
+				</ul>
+			</li>
+            <li>
+				<h3>好 友</h3>
+				<ul>
+					<li onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
+					<li onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
+				</ul>
+			</li>
+			<li>
+				<h3>完 毕</h3>
+				<ul>
+					<li onclick="window.location.href='/finished/{{ uid }}';"><div id="pic6"></div>已完成</li>
+					<li onclick="window.location.href='/deleted/{{ uid }}';"><div id="pic7"></div>垃圾箱</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<!--主体-->
+	<div id="content">
+		<div id="search">
+			<form method="post" action="/searchtask/">
+                {% csrf_token %}
+                <input type="hidden" name="uid" value="{{ uid }}" />
+				<input type="text"  name="word" placeholder="搜索任务" class="input-box" id="wanttosearch" />
+				<input type="submit" value="" id="startsearch" class="search-btn"/>
+			</form>
+		</div>
+
+		<div id="task">
+            {% for msg in messages %}
+                <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
+                    <div class="task-date" >
+                        <span style="color: #154BA0">{{ msg.sdate }}</span>&nbsp;&nbsp;&nbsp;
+                        <span style="color: orange">{{msg.funame}}</span>
+                        {% ifequal msg.ttag 0 %}
+                            <span>向您发送好友申请</span>
+                            <span>({{ msg.desc }})</span>
+                            <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button><button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';"> 忽略</button></div>
+
+                        {% endifequal %}
+
+                        {% ifequal msg.ttag 1 %}
+                            <span>{% ifequal msg.tag 1 %}同意了您的好友申请{% endifequal %}{% ifequal msg.tag 2 %}拒绝了您的好友申请{% endifequal %}</span>
+                            <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+
+                        {% endifequal %}
+                        {% ifequal msg.ttag 2 %}
+                            <span>想在{{ msg.odate }}日
+                            {% ifequal msg.period  1 %}
+                            06:00~09:00
+                            {% endifequal %}{% ifequal msg.period  2 %}
+                            09:00~12:00
+                            {% endifequal %}
+                            {% ifequal msg.period  3 %}
+                            12:00~15:00
+                            {% endifequal %}{% ifequal msg.period  4 %}
+                            15:00~18:00
+                            {% endifequal %}{% ifequal msg.period  5 %}
+                            18:00~21:00
+                            {% endifequal %}{% ifequal msg.period  6 %}
+                            21:00~24:00
+                            {% endifequal %}预约您({{ msg.desc }})
+                            </span>
+                            <div style="display:inline-block;float:right;position: absolute;left:850px;top:115px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button><button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">忽略</button></div>
+
+                        {% endifequal %}
+                        {% ifequal msg.ttag 3 %}
+                            {% ifequal msg.tag 1%}
+                                <span>同意了您在{{ msg.odate }}日
+                                {% ifequal msg.period  1 %}
+                                06:00~09:00
+                                {% endifequal %}{% ifequal msg.period  2 %}
+                                09:00~12:00
+                                {% endifequal %}
+                                {% ifequal msg.period  3 %}
+                                12:00~15:00
+                                {% endifequal %}{% ifequal msg.period  4 %}
+                                15:00~18:00
+                                {% endifequal %}{% ifequal msg.period  5 %}
+                                18:00~21:00
+                                {% endifequal %}{% ifequal msg.period  6 %}
+                                21:00~24:00
+                                {% endifequal %}的预约
+                                </span>
+                                <div style="display:inline-block;float:right;position: relative;left:362px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+                            {% endifequal %}
+                            {% ifequal msg.tag 2%}
+                                <span>拒绝了您在{{ msg.odate }}日
+                                {% ifequal msg.period  1 %}
+                                06:00~09:00
+                                {% endifequal %}{% ifequal msg.period  2 %}
+                                09:00~12:00
+                                {% endifequal %}
+                                {% ifequal msg.period  3 %}
+                                12:00~15:00
+                                {% endifequal %}{% ifequal msg.period  4 %}
+                                15:00~18:00
+                                {% endifequal %}{% ifequal msg.period  5 %}
+                                18:00~21:00
+                                {% endifequal %}{% ifequal msg.period  6 %}
+                                21:00~24:00
+                                {% endifequal %}的预约
+                                </span>
+                                <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+
+                            {% endifequal %}
+                        {% endifequal %}
+                    </div>
+			    </div>
+            {% endfor %}
+        </div>
+
+
+
+
+	</div>
+
+
+
+
+
+
+
+
+</body>
+</html>

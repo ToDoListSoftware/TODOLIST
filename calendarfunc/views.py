@@ -60,7 +60,12 @@ def Calendar(request,uid,year=None,month=None,change=None):
             if len(lst[week])==7:
                 lst.append([])
                 week+=1
-        return render_to_response('calendar.html',{'month_days':lst,'month':month,'year':year,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('calendar.html',{'len1':l1,'month_days':lst,'month':month,'year':year,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))

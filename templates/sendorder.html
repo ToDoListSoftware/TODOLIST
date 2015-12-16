@@ -1,0 +1,257 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
+	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
+    <script src="{% static "JS/dealsearch.js" %}"></script>
+    <script src="{% static "JS/jquery.js" %}"></script>
+    <script src="{% static "JS/jtimer.js" %}"></script>
+	<title>预约申请 | ToDo List</title>
+
+    <style type="text/css">
+        ul,li{margin: 0;padding: 0;font: 12px normal "宋体", Arial, Helvetica, sans-serif;list-style: none;}
+        #tabbox{ overflow:hidden; margin:50px 50px;}
+        .tab_conbox{border: 1px solid #999;border-top: none;}
+        .tab_con{ display:none;}
+        .tabs{height: 32px;border-bottom:1px solid #999;border-left: 1px solid #999;width: 100%;}
+        .tabs li{cursor: pointer;width:100px;height:31px;line-height:31px;float:left;border:1px solid #999;border-left:none;margin-bottom: -1px;background: #e0e0e0;overflow: hidden;position: relative;}
+        .tabs li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;}
+        .tabs li a:hover {background: #ccc;}
+        .tabs .thistab,.tabs .thistab a:hover{background: #fff;border-bottom: 1px solid #fff;}
+
+        .tab_con {padding:12px;font-size: 14px; line-height:175%;}
+    </style>
+
+
+	<script>
+        function showdel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'block';
+            }
+        }
+        function hidedel(){
+            var btn = document.getElementsByClassName('delbtn');
+            for(var i=0; i<btn.length; i++){
+                btn[i].style.display = 'none';
+            }
+        }
+		function showdropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'block';
+		}
+		function hidedropdown(){
+			var a = document.getElementById('user_drop_down');
+			a.style.display = 'none';
+		}
+        function changetag(){
+            var box = document.getElementsByClassName('check');
+            for(var i=0; i<box.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid');
+                    f[i].submit();
+                }
+            }
+        }
+        function del(){
+            var bts = document.getElementsByClassName('delbtn');
+            for(var i=0; i<bts.length; i++){
+                if (box[i].checked == true)
+                {
+                    var f = document.getElementsByClassName('formid2');
+                    f[i].submit();
+                }
+            }
+        }
+
+        window.onload = function () {
+            var h = document.getElementById('content');
+            var s = document.getElementsByClassName('sidebar')[0];
+            var h1 = h.style.height;
+            s.style.height = h1;
+        }
+
+	</script>
+
+
+
+
+
+</head>
+
+
+
+
+<body>
+	<!--顶部-->
+	<div id="top">
+		<div id="top_bar">
+
+			<div class="l-header">
+                <div id="logo2"><a href="/TodayTask/{{ uid }}"><img src="{% static "images/logo2.png" %}" /></a></div>
+				<div id="add-task-btn" class="rt" onclick="window.location.href='/AddTask/uid{{ uid }}option1/';"><img src="{% static "images/plus1.png" %}" /></div>
+            </div>
+            <div class="r-header" >
+				<div id="avatar"></div>
+            	<div class="username" onclick="showdropdown()" style="cursor:pointer"><div id="name" style="display:inline-block;"><a style="color:white;">欢迎，{{ uname }}</a></div>
+				</div>
+				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
+					<ul>
+							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
+							<li><a style="cursor:pointer;">常见问题</a></li>
+							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
+						</ul>
+					</div>
+
+			</div>
+    	</div>
+	</div>
+
+	<!--侧边栏-->
+	<div class="sidebar">
+		<ul>
+			<li>
+				<h3>收 藏</h3>
+				<ul>
+					<li onclick="window.location.href='/CollectedTask/{{ uid }}';"><div id="pic0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收集箱</div></li>
+				</ul>
+			</li>
+			<li>
+				<h3>聚 焦</h3>
+				<ul>
+					<li onclick="window.location.href='/TodayTask/{{ uid }}';"><div id="pic1" class="clr"></div>今日待办&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len }})</li>
+					<li onclick="window.location.href='/ShowMessage/{{ uid }}';"><div id="pic2"></div>消息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({{ len1 }})</li>
+					<li onclick="window.location.href='/Calendar/{{ uid }}';"><div id="pic3"></div>日程</li>
+					<li onclick="window.location.href='/maybe/{{ uid }}';"><div id="pic4"></div>将来/也许</li>
+					<li style="background-color: #F0F0F0;" onclick="window.location.href='/MainOrder/{{ uid }}';"><div id="pic5"></div>预约</li>
+				</ul>
+			</li>
+			<li>
+				<h3>所有情境  <div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
+				<ul>
+                    {% ifequal flag1 0 %}
+                         <li><div id="pic8"></div>无</li>
+                    {% else %}
+                        {% for situ in result2 %}
+                            <li onclick="window.location.href='/SituationTask/uid{{ uid }}sid{{ situ.sid }}/';"><div id="pic8"></div>{{ situ.stitle }}</li>
+                        {% endfor %}
+                    {% endifequal %}
+				</ul>
+			</li>
+            <li>
+				<h3>好 友</h3>
+				<ul>
+					<li onclick="window.location.href='/SearchUserPre/{{ uid }}';"><div id="pic9"></div>添加好友</li>
+					<li onclick="window.location.href='/MyFriendPre/{{ uid }}';"><div id="pic10"></div>我的好友</li>
+				</ul>
+			</li>
+			<li>
+				<h3>完 毕</h3>
+				<ul>
+					<li onclick="window.location.href='/finished/{{ uid }}';"><div id="pic6"></div>已完成</li>
+					<li onclick="window.location.href='/deleted/{{ uid }}';"><div id="pic7"></div>垃圾箱</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<!--主体-->
+	<div id="content">
+        <div id="tabbox">
+            <ul class="tabs" id="tabs">
+               <li>我要预约</li>
+               <li>预约成功</li>
+            </ul>
+            <ul class="tab_conbox" id="tab_conbox">
+                <li style="display: none;width:1000px;" class="tab_con">
+                   <div style="width:750px;height:500px;">
+                       <div style="position: relative;left:-118px;top:5px;font-size: 17px;color: #075E8B;"><span style="font-size: 20px;"><b>Step Two:</b></span>&nbsp;&nbsp;&nbsp;您将预约{{ funame }},&nbsp;请选择预约时间段并填写预约备注</div>
+                       <div onclick="javascript:window.history.back(-1);" style="position: relative;display: inline-block;top:-20px;left:450px;"><a style="color: #075E8B;" >&lt;&lt;返回上一步</a></div>
+                   </div>
+                   <form method="post" action="/SendOrder/">
+                    {% csrf_token %}
+                   <div style="position: relative;top:-400px;left:-277px;">
+                       <input type="hidden" name="uid" value="{{ uid }}"/>
+                       <input type="hidden" name="fuid" value="{{ fuid }}"/>
+                       <span style="color: #075E8B;font-size: 18px;">请选择日期:&nbsp;&nbsp;&nbsp;</span><input readonly class="form_input" name="day" type="text" onclick="JTC.setday()" />
+                   </div>
+                   <div style="position: relative;top:-400px;left:-407px;" class="choosetime">
+                       <div style="position:relative; color: #075E8B;font-size: 18px;">请选择具体时间段:</div>
+                       <div style="position: relative;left:170px;top:-25px;">
+                           <div>
+                               <input class="check" type="checkbox" value="1" name="period" />
+                               <label >06:00~09:00</label>
+                           </div>
+                           <div>
+                               <input class="check" type="checkbox" value="2" name="period" />
+                               <label >09:00~12:00</label>
+                           </div>
+                           <div>
+                               <input class="check" type="checkbox" value="3" name="period" />
+                               <label >12:00~15:00</label>
+                           </div>
+                           <div>
+                               <input class="check" type="checkbox" value="4" name="period"/>
+                               <label >15:00~18:00</label>
+                           </div>
+                           <div>
+                               <input class="check" type="checkbox" value="5" name="period"/>
+                               <label >18:00~21:00</label>
+                           </div>
+                           <div>
+                               <input class="check" type="checkbox" value="6" name="period" />
+                               <label >21:00~24:00</label>
+                           </div>
+                       </div>
+                       <div style="position: relative;left:30px;top:80px;">
+                           <span style="position: relative;left:0px;top:-100px;color: #075E8B;font-size: 18px;">以下输入预约详细内容:&nbsp;&nbsp;&nbsp;</span>
+                           <div style="position:relative;left:140px;top:-80px;"><span>标题:&nbsp;&nbsp;</span><input class="form_input" type="text" name="title"/></div>
+                           <div style="position:relative;left:140px;top:-80px;"><span>地点:&nbsp;&nbsp;</span><input class="form_input" type="text" name="location"/></div>
+                           <div style="position:relative;left:130px;top:-80px;"><span>详细描述:&nbsp;&nbsp;</span><textarea name="reason" placeholder="您好,我想约您……" style="width: 300px;height:100px;"></textarea></div>
+                       </div>
+                       <div style="position: relative;left:200px;margin-top:10px;">
+                           <input type="submit" value="确认发送" />
+                       </div>
+
+                   </div></form>
+                </li>
+
+                <li style="display: none;" class="tab_con">
+                    <div style="width:750px;height:500px;">
+                   </div>
+                </li>
+            </ul>
+        </div>
+	</div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+		$(tab_conbox).find("li").hide();
+		$(tabtit).find("li:first").addClass("thistab").show();
+		$(tab_conbox).find("li:first").show();
+
+		$(tabtit).find("li").bind(shijian,function(){
+		  $(this).addClass("thistab").siblings("li").removeClass("thistab");
+			var activeindex = $(tabtit).find("li").index(this);
+			$(tab_conbox).children().eq(activeindex).show().siblings().hide();
+			return false;
+		});
+
+	};
+	/*调用方法如下：*/
+	$.jqtab("#tabs","#tab_conbox","click");
+
+	$.jqtab("#tabs2","#tab_conbox2","mouseenter");
+
+});
+</script>
+
+
+</body>
+</html>

@@ -194,7 +194,12 @@ def UserDetail(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('personinfo.html', {'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('personinfo.html', {'len1':l1,'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -235,7 +240,12 @@ def UserUpdatepre(request,uid):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('userupdate.html', {'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('userupdate.html', {'len1':l1,'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -275,7 +285,12 @@ def UserUpdate(request):
             flag1 = 0
         else:
             flag1 = 1
-        return render_to_response('personinfo.html', {'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
+        tmsg0=SearchFReqByTag(uid,2)#ttag=0
+        tmsg1=SearchFReqByTag(uid,1)#ttag=1
+        tmsg2=SearchOReqByTag(uid,2)#ttag=2
+        tmsg3=SearchOReqByTag(uid,1)#ttag=3
+        l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
+        return render_to_response('personinfo.html', {'len1':l1,'job':job,'company':company,'school':school,'location':location,'uid':uid,'len':l,'result2':result2,'flag1':flag1,'uname':uname,'email':email,'gender':gender,'des':des,'birth':birth}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))

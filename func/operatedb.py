@@ -3,7 +3,7 @@ _author_='shishuangwei'
 import operator
 import MySQLdb
 #import sae.const
-
+"""
 HOST = 'localhost'
 PORT = 3306
 USER = 'root'
@@ -18,7 +18,7 @@ USER = sae.const.MYSQL_USER
 PASSWORD = sae.const.MYSQL_PASS
 DBNAME = sae.const.MYSQL_DB
 CHARSET = 'utf8'
-"""
+
 def Init():
     try:
         conn = MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, charset = CHARSET )
@@ -82,10 +82,13 @@ def Init():
         cur.execute('create table orderrequest(id int PRIMARY KEY NOT NULL ,\
                                               muid int,\
                                               suid int,\
-                                              description int,\
+                                              description varchar(200),\
                                               sdate date,\
+                                              odate date,\
                                               period int,\
                                               tag int,\
+                                              title varchar(100),\
+                                              location varchar(100),\
                                               FOREIGN KEY (muid) REFERENCES usertable(userid),\
                                               FOREIGN KEY (suid) REFERENCES usertable(userid))DEFAULT CHARSET=utf8;')
 
@@ -544,11 +547,13 @@ def WriteFriendRequest(id,muid,suid,desc,sdate,tag):
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
-def UpdateFReqTag(frid,option):
+def UpdateFReqTag(frid,ndate,option):
     try:
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
-        cur.execute("update friendrequest set tag = %s where id = %s",(option,frid))
+        cur.execute("update friendrequest set tag = %s  where id = %s",(option,frid))
+        conn.commit()
+        cur.execute("update friendrequest set sdate= %s where id = %s",(ndate,frid))
         conn.commit()
         cur.close()
         conn.close()
@@ -573,6 +578,18 @@ def SearchFReqBysuid(suid):
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
         cur.execute("select * from friendrequest where suid = %s", suid)
+        info = cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchFReqBysuidmuid(muid,suid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from friendrequest where suid = %s and muid = %s", (suid,muid))
         info = cur.fetchall()
         cur.close()
         conn.close()
@@ -625,7 +642,7 @@ def WriteRelationship(id,uid1,uid2):
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
         cur.execute("insert into relationship values (%s,%s,%s)",(id,uid1,uid2))
-        cur.execute("insert into relationship values (%s,%s,%s)",(id,uid2,uid1))
+        cur.execute("insert into relationship values (%s,%s,%s)",(id+1,uid2,uid1))
         conn.commit()
         cur.close()
         conn.close()
@@ -650,6 +667,121 @@ def SearchOneRelationship(muid,suid):
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
         cur.execute("select * from relationship where  muid = "+str(muid)+" and suid = "+str(suid)+"")
+        info=cur.fetchone()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def GetRelationshipIDMax():
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select max(id) as LargestOrderPrice from relationship")
+        info = cur.fetchone()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def DeleteRelationship(id):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("delete from relationship where id = %s", id)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+###############orderrequest####################
+def WriteOReq(id,muid,suid,desc,sdate,odate,period,tag,title,location):
+    try:
+        value= (id,muid,suid,desc,sdate,odate,period,tag,title,location)
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("insert into orderrequest values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",value)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def UpdateOReqTag(orid,ndate,option):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("update orderrequest set tag = %s  where id = %s",(option,orid))
+        conn.commit()
+        cur.execute("update orderrequest set sdate= %s where id = %s",(ndate,orid))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchOReqBymuid(muid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from orderrequest where muid = %s", muid)
+        info = cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchOReqBysuid(suid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from orderrequest where suid = %s", suid)
+        info = cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def DeleteOReqByid(id):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("delete from orderrequest where id = %s", id)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def GetOReqIDMax():
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select max(id) as LargestOrderPrice from orderrequest")
+        info = cur.fetchone()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchOReqByTag(uid,option):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        if option == 1:#自己为消息发送方,查看对方处理意见
+            cur.execute("select * from orderrequest where (tag = 1 or tag = 2) and  muid = "+str(uid)+"  order by sdate")
+        elif option == 2: #自己为消息接收方,查看未处理的消息
+            cur.execute("select * from orderrequest where tag = 0  and suid = "+str(uid)+" order by sdate")
         info=cur.fetchall()
         cur.close()
         conn.close()
@@ -657,3 +789,28 @@ def SearchOneRelationship(muid,suid):
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
+def SearchOReqBysuidmuiddateperiod(muid,suid,date,period):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from orderrequest where suid = %s and muid = %s and odate = %s and period =%s", (suid,muid,date,period))
+        info = cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchOReqByid(id):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from orderrequest where id = %s ",id)
+        info = cur.fetchone()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+
