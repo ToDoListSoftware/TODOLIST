@@ -6,7 +6,7 @@
 	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
 	<link rel="stylesheet" href="{% static "css/index.css" %}" type="text/css"/>
     <script src="{% static "JS/dealsearch.js" %}"></script>
-	<title>今日待办 | ToDo List</title>
+	<title>我的消息 | ToDo List</title>
     <style>
 
     </style>
@@ -159,7 +159,7 @@
                         {% ifequal msg.ttag 0 %}
                             <span>向您发送好友申请</span>
                             <span>({{ msg.desc }})</span>
-                            <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button><button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';"> 忽略</button></div>
+                            <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button>&nbsp;<button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button>&nbsp;<button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';"> 忽略</button></div>
 
                         {% endifequal %}
 
@@ -185,7 +185,7 @@
                             21:00~24:00
                             {% endifequal %}预约您({{ msg.desc }})
                             </span>
-                            <div style="display:inline-block;float:right;position: absolute;left:850px;top:115px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button><button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">忽略</button></div>
+                            <div style="display:inline-block;float:right;position: relative;left:352px;top:0px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button>&nbsp;<button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button>&nbsp;<button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">忽略</button></div>
 
                         {% endifequal %}
                         {% ifequal msg.ttag 3 %}
@@ -225,7 +225,7 @@
                                 21:00~24:00
                                 {% endifequal %}的预约
                                 </span>
-                                <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+                                <div style="display:inline-block;float:right;position: relative;left:362px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
 
                             {% endifequal %}
                         {% endifequal %}

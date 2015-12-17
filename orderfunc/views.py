@@ -74,6 +74,9 @@ def SendOrderpre(request,uid,fuid):
         l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
         funame=SearchUserByID(int(fuid))[1]
         gender=SearchUserByID(int(fuid))[3]
+
+
+
         return render_to_response('sendorder.html',{'funame':funame,'gender':gender,'fuid':fuid,'len1':l1,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2

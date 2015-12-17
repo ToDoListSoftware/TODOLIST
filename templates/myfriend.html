@@ -160,7 +160,8 @@
                 <div style="font-size:18px; position:absolute;top:100px;left:50px;">您一共有&nbsp;&nbsp;<span style="font-size:25px;color:orange">{{ friendnum }}</span>&nbsp;&nbsp;位好友:</div>
             {% endifequal %}
 
-            <div id="task" style="height:100% position: relative;">
+            <div id="task" style="width:1000px;height:500px; position: relative;top:-30px; overflow: scroll;">
+                <div style="position: relative;top:30px;">
                 {% for user in friendlist %}
                     <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
 
@@ -178,14 +179,15 @@
                         </div>
                     </div>
                     {% ifequal flag2 1 %}
-                        <div style="display:inline-block;float:right;position: relative;left:0px;top:-35px;"><button onclick="window.location.href='/DeleteFriend/{{ uid }}/{{ user.fuid }}/3/{{ keyword }}';">删除好友</button><button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid}}';">预约好友</button></div>
+                        <div style="display:inline-block;float:right;position: relative;left:-30px;top:-35px;"><button onclick="window.location.href='/DeleteFriend/{{ uid }}/{{ user.fuid }}/3/{{ keyword }}';">删除好友</button>&nbsp;<button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid}}';">预约好友</button></div>
                     {% else %}
-                        <div style="display:inline-block;float:right;position: relative;left:0px;top:-35px;"><button onclick="window.location.href='/DeleteFriend/{{ uid }}/{{ user.fuid }}/0';">删除好友</button><button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid }}';">预约好友</button></div>
+                        <div style="display:inline-block;float:right;position: relative;left:-30px;top:-35px;"><button onclick="window.location.href='/DeleteFriend/{{ uid }}/{{ user.fuid }}/0';">删除好友</button>&nbsp;<button onclick="window.location.href='/SendOrderpre/{{ uid }}/{{ user.fuid }}';">预约好友</button></div>
                     {% endifequal %}
                 {% endfor %}
+                </div>
             </div>
-        </div>
-	</div>
+	    </div>
+    </div>
 <script type="text/javascript">
 
 function alerts(){

@@ -789,18 +789,6 @@ def SearchOReqByTag(uid,option):
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
-def SearchOReqBysuidmuiddateperiod(muid,suid,date,period):
-    try:
-        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
-        cur=conn.cursor()
-        cur.execute("select * from orderrequest where suid = %s and muid = %s and odate = %s and period =%s", (suid,muid,date,period))
-        info = cur.fetchall()
-        cur.close()
-        conn.close()
-        return info
-    except MySQLdb.Error,e:
-        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
-        return False
 def SearchOReqByid(id):
     try:
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
