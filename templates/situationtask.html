@@ -146,7 +146,7 @@
 			<form method="post" action="/searchtask/">
                 {% csrf_token %}
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" name="word" placeholder="搜索任务" class="input-box"/>
+				<input type="text" name="word" required placeholder="搜索任务" class="input-box"/>
 				<input type="submit" value="" class="search-btn"/>
 			</form>
 		</div>
@@ -186,7 +186,7 @@
                             <input type="hidden" name="sid" value="{{ sid }}" />
                             <input type="hidden" name="uid" value="{{ uid }}" />
                             <input type="hidden" name="id" value="{{ task.id1 }}" />
-                            <input type="submit" value="删除" class="delbtn" onclick="del()"/>
+                            <input style="margin-right:15px;" type="submit" value="删除" class="delbtn" onclick="del()"/>
                         </form>
                     </div>
 			    </div>

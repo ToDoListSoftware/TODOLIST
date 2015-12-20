@@ -141,13 +141,13 @@
 		<div id="search">
 			<form method="post" action="/searchtask/">
                 {% csrf_token %}
-                <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text"  name="word" placeholder="搜索任务" class="input-box" id="wanttosearch" />
+                <input type="hidden" name="uid"  value="{{ uid }}" />
+				<input type="text" required name="word" required placeholder="搜索任务" class="input-box" id="wanttosearch" />
 				<input type="submit" value="" id="startsearch" class="search-btn"/>
 			</form>
 		</div>
 		
-		<div id="task">
+		<div id="task" style="height:600px;overflow: scroll;">
             {% for task in result %}
                 <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
                     <div class="task-checkbox">
@@ -177,7 +177,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="uid" value="{{ uid }}" />
                             <input type="hidden" name="id" value="{{ task.id1 }}" />
-                            <input type="submit" value="删除" class="delbtn" onclick="del()"/>
+                            <input style="margin-right:15px;;" type="submit" value="删除" class="delbtn" onclick="del()"/>
                         </form>
                     </div>
 			    </div>

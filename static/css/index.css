@@ -551,6 +551,18 @@ h3 div a:hover{
 	left: 900px;
 }
 
+#upbtn1{
+	width: 90px;
+	height: 40px;
+	margin: 8px;
+	background: url("../images/edit.png") no-repeat;
+	color:#FFF;
+	border: 0;
+	position: absolute;
+	top :400px;
+	left: 900px;
+}
+
 /*个人信息*/
 .titlef{
 	font-size: 18px;

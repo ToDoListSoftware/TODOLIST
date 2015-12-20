@@ -299,6 +299,33 @@ def DeleteTask(id):
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
+
+def DeleteDoneTask(uid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("delete from tasklist where userid = %s and tag = 1 ", uid)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+
+def DeleteDeleteTask(uid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("delete from tasklist where userid = %s and tag = 2 ", uid)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+
 def SearchTaskByDate(option,userid,date):
     try:
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
@@ -368,11 +395,11 @@ def SearchTaskByID(id):
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
-def SearchTaskByTID(tid):
+def SearchTaskByTID(uid,tid):
     try:
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
-        cur.execute("select * from tasklist where tid = %s ",tid)
+        cur.execute("select * from tasklist where tid = %s and userid=%s ",(tid,uid))
         info=cur.fetchall()
         cur.close()
         conn.close()
@@ -392,12 +419,36 @@ def SearchTaskBySituation(sid,uid):
     except MySQLdb.Error,e:
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
         return False
+def SearchTaskByPeriod(uid,date,period):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from tasklist where userid = %s and sdate =%s and  ordertag = 1 and period = %s and tag = 0 ",(uid,date,period))
+        info=cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
 def SearchTaskLike(option,str,uid):
     try:
         str="%%"+str+"%%"
         conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
         cur=conn.cursor()
         cur.execute("select * from tasklist where "+option+" like "+'"'+str+'"'+" and userid = %s order by sdate",uid)
+        info=cur.fetchall()
+        cur.close()
+        conn.close()
+        return info
+    except MySQLdb.Error,e:
+        print "Mysql Error %d: %s" % (e.args[0], e.args[1])
+        return False
+def SearchOTaskByUId(uid):
+    try:
+        conn=MySQLdb.connect(host = HOST,user = USER, passwd = PASSWORD, port = PORT, db=DBNAME , charset = CHARSET )
+        cur=conn.cursor()
+        cur.execute("select * from tasklist where userid = %s and ordertag = 1 and tag = 0 order by sdate",uid)
         info=cur.fetchall()
         cur.close()
         conn.close()

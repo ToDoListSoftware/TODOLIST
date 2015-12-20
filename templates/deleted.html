@@ -131,12 +131,13 @@
 			<form method="post" action="/searchtask/">
                 {% csrf_token %}
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" name="word" placeholder="搜索任务" class="input-box"/>
+				<input type="text" required name="word" placeholder="搜索任务" class="input-box"/>
 				<input type="submit" value="" class="search-btn"/>
 			</form>
 		</div>
+		<div id="task" style="height:600px;overflow: scroll;">
+            <div><button onclick="window.location.href='/DeleteAllTask/2/{{ uid }}';" style="margin: 10px auto;position: relative;left:-430px;">一键清空</button></div>
 
-		<div id="task">
             {% for task in result %}
                 <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
                     <div class="task-date">
@@ -162,7 +163,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="uid" value="{{ uid }}" />
                             <input type="hidden" name="id" value="{{ task.id1 }}" />
-                            <input type="submit" value="恢复" class="undelbtn" onclick="undel()"/>
+                            <input type="submit" value="恢复" style="margin-right: 15px;" class="undelbtn" onclick="undel()"/>
                         </form>
                     </div>
 			    </div>

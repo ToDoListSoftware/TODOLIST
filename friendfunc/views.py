@@ -216,7 +216,20 @@ def ShowMessagepre(request,uid):
 
         for row in tmsg2:
             funame = SearchUserByID(row[1])[1]
-            node={'id':row[0],'fuid':row[1],'funame':funame,'desc':row[3],'sdate':row[4].strftime("%Y-%m-%d"),'odate':row[5].strftime("%Y-%m-%d"),'period':row[6],'ttag':2}
+            atasknum=len(SearchTaskByPeriod(uid,row[5],row[6]))
+            if row[6] == 1:
+                period="6:00~9:00"
+            elif row[6] == 2:
+                period="9:00~12:00"
+            elif row[6] == 3:
+                period="12:00~15:00"
+            elif row[6] == 4:
+                period="15:00~18:00"
+            elif row[6] == 5:
+                period="18:00~21:00"
+            elif row[6] == 6:
+                period="21:00~24:00"
+            node={'id':row[0],'fuid':row[1],'funame':funame,'desc':row[3],'sdate':row[4].strftime("%Y-%m-%d"),'odate':row[5].strftime("%Y-%m-%d"),'title':row[8],'location':row[9],'period':period,'ttag':2,'atasknum':atasknum}
             msg.append(node)
 
         for row in tmsg3:

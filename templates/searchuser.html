@@ -141,7 +141,7 @@
 			<form method="post" action="/SearchUser/">
                 {% csrf_token %}
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" name="keyword" placeholder="搜索用户" class="input-box"/>
+				<input type="text" required name="keyword" placeholder="搜索用户" class="input-box"/>
 				<input type="submit" value="" class="search-btn"/>
 			</form>
 		</div>

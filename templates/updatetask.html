@@ -167,11 +167,11 @@
 				</div>
 				<div class="top_bar_drop_down clr" id="user_drop_down" onmouseover="showdropdown()" onmouseout="hidedropdown()">
 					<ul>
-							<li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
-							<li><a style="cursor:pointer;">常见问题</a></li>
-							<li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
-						</ul>
-					</div>
+                        <li><a style="cursor:pointer;" href="/UserDetail/{{ uid }}">个人信息</a></li>
+                        <li><a style="cursor:pointer;">常见问题</a></li>
+                        <li><a style="cursor:pointer;" href="/logout/{{ uid }}">退出账号</a></li>
+                    </ul>
+                </div>
 
 			</div>
     	</div>
@@ -179,12 +179,14 @@
 
 
 	<!--主体-->
-    <div style="border: 1px solid #ccc; width:500px; height:800px; margin:50px auto;">
-    <div style="float:right; position: relative; left: -100px; top:40px;">
+
+    <div>
+    <div style="float:right; position: relative; left: -100px; top:100px;">
         <input style="width: 80px;" onclick="window.location.href='/TodayTask/{{ uid }}/';" type="submit" value="返回主页"/>
             <br/><br/>
         <button style="width: 80px;" onclick="javascript:window.history.back(-1);">返回上一页</button>
     </div><br/><br/><br/><br/><br/>
+    <div style="border: 1px solid #ccc; width:500px; height:820px; margin:50px auto;">
     <div id="showtaskdetai"><br/><br/>
         <div><form method="post" action="/ChangeTask/">
             {% csrf_token %}
@@ -198,9 +200,22 @@
                 <input tabindex="2" type="text" placeholder="地点" value="{{ location }}" name="location" class="form_input"/>
             </div>
             <div><textarea id="texta" tabindex="3" placeholder="详情" style="height: 200px;" name="des" value="{{ des }}" class="form_input"></textarea></div>
+            {% ifequal ordertag 0 %}
             <div>
-                <input  class="form_input" name="sdate" type="text" value="{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+                <input  class="form_input"  name="sdate" type="text" value="{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
             </div>
+            {% else %}
+            <div>
+                <input disabled class="form_input"  name="sdate" type="text" value="日期:{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+            </div>
+
+            <div>
+                <input  class="form_input" disabled name="period" type="text" value="时间段:{% ifequal period 1 %}6:00~9:00{% endifequal %}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+            </div>
+            <div>
+                <input  class="form_input" disabled name="couname" type="text" value="合作者:{{ couname }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+            </div>
+            {% endifequal %}
                 <div class="input_box">
 				<label style="font-size: 14px;">优先</label>
 					<select name="pri" class="form_input" style="background: #fff;">
@@ -259,6 +274,7 @@
 				</div><br/>
             <input type="submit" value="保存" /></form><br/><br/><br/>
         </div></div>
+    </div>
     </div>
     <script>
         window.onload=function(){

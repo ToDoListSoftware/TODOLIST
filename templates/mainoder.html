@@ -8,6 +8,21 @@
     <script src="{% static "JS/dealsearch.js" %}"></script>
     <script src="{% static "JS/jquery.js" %}"></script>
 	<title>预约 | ToDo List</title>
+    <style type="text/css">
+    .popWindow{
+        background-color:#ffffff;
+        border-radius:3px;
+        border:2px solid #075E8B;
+        position:absolute;
+        width:308px;
+        height:220px;
+        top:-40px;
+        left:250px;
+        display:none;
+        box-shadow:5px 5px 5px #322E2F;
+        z-index:999;
+    }
+    </style>
 
     <style type="text/css">
         ul,li{margin: 0;padding: 0;font: 12px normal "宋体", Arial, Helvetica, sans-serif;list-style: none;}
@@ -161,7 +176,7 @@
             <ul class="tab_conbox" id="tab_conbox">
                 <li style="display: none;width:1000px;" class="tab_con">
                    <div style="width:1000px;height:500px;">
-                       <div style="position: relative;left:-335px;top:20px;font-size: 17px;color: #075E8B"><span style="font-size: 20px;"><b>Step One:</b></span>&nbsp;&nbsp;&nbsp;请选择您想预约的好友</div>
+                       <div style="position: relative;left:-335px;top:20px;font-size: 17px;color: #075E8B;"><span style="font-size: 20px;"><b>Step One:</b></span>&nbsp;&nbsp;&nbsp;请选择您想预约的好友</div>
                        <div id="task" style="height:80%;width: 1000px;height:400px; position: relative;left:30px;top:60px;margin:0;overflow: scroll;">
                             {% for user in friendlist %}
                                 <div style="width:90%;">
@@ -186,6 +201,42 @@
 
                 <li style="display: none;" class="tab_con">
                     <div style="width:750px;height:500px;">
+                        <div>
+                            {% ifequal orderlen 0 %}
+                                <span style="font-size: 17px;color: #075E8B;position: relative;left:-250px;">您当前没有预约任务.</span>
+                            {% else %}
+                                <span style="font-size: 17px;color: #075E8B;position: relative;left:-250px;">您当前一共有{{ orderlen }}项预约:</span>
+                                <div id="task" style="position: relative;height:400px;top:-60px;">
+                                    {% for task in ordertask %}
+                                        <div class="task-item">
+                                            <div class="task-date">
+                                                {{task.title}}
+                                            </div>
+                                            <div>
+                                                <input style="position:absolute;left:800px;display: block;" type="button" value="详情" class="delbtn" onclick="popWindowShow('查看预约详情',this)"/>
+
+                                                <div class="popWindow"id="popWindow">
+                                                    <table style="width:100%;line-height:22px;"cellspacing="0"cellpadding="0">
+                                                        <tr style="background-color:#075E8B;">
+                                                            <td style="color:white;font-family:bolder;font-size:10pt;"id="titleTd">预约详情</td>
+                                                        </tr>
+                                                    </table>
+                                                    <div><span style="padding-left: 20px;">日期:&nbsp;</span>{{ task.date }}</div>
+                                                    <div><span style="padding-left: 20px;">时间段:&nbsp;</span>{{ task.period }}</div>
+                                                    <div><span style="padding-left: 20px;">地点:&nbsp;</span>{{ task.location }}</div>
+                                                    <div><span style="padding-left: 20px;">合作者:&nbsp;</span>{{ task.couname }}</div>
+                                                    <div><span style="padding-left: 20px;">描述:&nbsp;</span>{{ task.desc }}</div>
+                                                    <input style="position: relative;left:135px;top:5px;" type="button" value="确定" onclick="popWindowHide()"/>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endifequal %}
+                        </div>
+
                    </div>
                 </li>
             </ul>
@@ -215,6 +266,35 @@ $(document).ready(function() {
 	$.jqtab("#tabs2","#tab_conbox2","mouseenter");
 
 });
+</script>
+<script type="text/javascript">
+
+function popWindowShow(title,obj)
+{
+var popWindow = document.getElementById("popWindow");
+var popFrame = document.getElementById("popFrame");
+var popWindowBg = document.getElementById("popWindowBg");
+
+document.getElementById("titleTd").innerHTML = title;
+popWindow.style.display ="block";
+popWindowBg.style.display ="block";
+    var o = document.getElementsByClassName("delbtn");
+    for (var i=0;i<o.length ;i++)
+    {
+       j=i+1;
+
+       if(obj==o[i]){
+            var aaa = document.getElementById('fuck');
+            aaa.value = j;
+       }
+    }
+}
+function popWindowHide()
+{
+    document.getElementById("popWindow").style.display ="none";
+    document.getElementById("popWindowBg").style.display ="none";
+
+}
 </script>
 </body>
 </html>

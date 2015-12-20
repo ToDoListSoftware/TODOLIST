@@ -148,6 +148,10 @@
         <span style="font-size:13px;color:cornflowerblue; position: absolute;top:70px; left:120px;">#{{ situation }}</span><br/><br/><br/><br/>
         <p style="text-align: left; font-size: 24px; margin-left: 60px;"><b>{{ title }}</b></p><br/><br/>
         <p style="text-align: left; font-size: 14px; margin-left: 60px;">地点:&nbsp;&nbsp;&nbsp;{{ location }}</p><br/><br/>
+        {% ifequal ordertag 1 %}
+        <p style="text-align: left; font-size: 14px; margin-left: 60px;">时间段:&nbsp;&nbsp;&nbsp;{{ period }}</p><br/><br/>
+        <p style="text-align: left; font-size: 14px; margin-left: 60px;">合作者:&nbsp;&nbsp;&nbsp;{{ couname }}</p><br/><br/>
+        {% endifequal %}
         <p style="text-align: left; font-size: 14px; margin-left: 60px;">优先:&nbsp;&nbsp;&nbsp;
                 {% ifequal priority 0 %}
                      低
@@ -172,7 +176,11 @@
         <form method="post" action="/ChangeTaskpre/">{% csrf_token %}
             <input type="hidden" name="uid" value="{{ uid }}"/>
             <input type="hidden" name="id" value="{{ id }}"/>
-            <input id="upbtn" value="" type="submit"/>
+            {% ifequal ordertag 0 %}
+                <input id="upbtn" value="" type="submit"/>
+            {% else %}
+                <input id="upbtn1" value="" type="submit"/>
+            {% endifequal %}
         </form>
         <div style="border-bottom: 2px dotted #E5E5E5; margin-left: 15px;"></div>
 
@@ -181,6 +189,7 @@
             <br/><br/><div style="font-size:18px; text-align: left; margin-left: 50px;">该任务无同组任务!</div>
         {% else %}
             <br/><br/><div style="font-size:18px; text-align: left; margin-left: 50px;">该任务同组任务如下: &nbsp;<span style="font-size:30px;color:orange;"><b>{{ per }}%</b></span>&nbsp;DONE!</div><br/><br/>
+            <div style="height:400px;overflow: scroll;">
             {% for task in result %}
                 <div class="task-item" style="width: 800px;margin: auto auto; float:left; margin-left: 60px">
                     <div class="task-date">
@@ -202,6 +211,7 @@
                     </div>
 			    </div>
             {% endfor %}
+            </div>
         {% endifequal %}
     </div>
 </body>

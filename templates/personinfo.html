@@ -182,11 +182,11 @@
         </table></div><br/>
 
             <h2>我的情境</h2>
-            <div style="margin: auto auto;width:640px;padding: 30px;;margin-top: 50px;border: 1px solid #e5e5e5;">
+            <div style="margin: auto auto;width:640px;padding: 25px;;margin-top: 20px;border: 1px solid #e5e5e5;height:80px; overflow: scroll;">
             <ul>
                 {% ifequal flag1 1 %}
                 {% for situ in result2 %}
-                    <li title="{{ situ.stitle }}" style="width:600px; text-align:left;font-size: 16px;">{{ situ.stitle }}<a style="color:red;float:right; font-size: 16px;" href="/DeleteSituation/sid{{ situ.sid }}uid{{ uid }}">X</a></li><br>
+                    <li title="{{ situ.stitle }}" style="width:600px; text-align:left;font-size: 16px;">{{ forloop.counter }}、{{ situ.stitle }}<a style="color:red;float:right; font-size: 16px;" href="/DeleteSituation/sid{{ situ.sid }}uid{{ uid }}">X</a></li><br>
                 {% endfor %}
                 {% else %}
                 <li style="font-size: 18px;">暂无</li><br/>

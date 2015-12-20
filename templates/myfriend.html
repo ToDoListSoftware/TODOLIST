@@ -148,7 +148,7 @@
 			<form method="post" action="/SearchFriend/">
                 {% csrf_token %}
                 <input type="hidden" name="uid" value="{{ uid }}" />
-				<input type="text" value="{{ keyword }}" name="keyword" placeholder="查找我的好友" class="input-box"/>
+				<input type="text" required value="{{ keyword }}" name="keyword" placeholder="查找我的好友" class="input-box"/>
 				<input type="submit" value="" class="search-btn"/>
 			</form>
 		</div>

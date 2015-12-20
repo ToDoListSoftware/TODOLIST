@@ -587,6 +587,7 @@ def searchtask(request):
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
 
 def TaskDetail(request,id,uid):
+    uid =int(uid)
     if timetest(uid):
         name=SearchUserByID(int(uid))[1]
         num=0
@@ -604,6 +605,13 @@ def TaskDetail(request,id,uid):
         location=info[6]
         desc=info[7]
         tag=info[8]
+        ordertag=info[10]
+        if ordertag==1:
+            couname=SearchUserByID(info[11])[1]
+            period=info[12]
+        else:
+            couname=0
+            period=0
         if tag==1:
             num+=1
 
@@ -612,7 +620,7 @@ def TaskDetail(request,id,uid):
         else:
             situation='无'
         result=[]
-        tasks=SearchTaskByTID(tid)
+        tasks=SearchTaskByTID(uid,tid)
         for i in tasks:
             id1=i[0]
             if id1==int(id):
@@ -630,6 +638,9 @@ def TaskDetail(request,id,uid):
             tag2=1#为空
         else:
             tag2=0
+
+
+
         result2=[]
         info1=SearchSituation(uid)
         if len(info1)==0:
@@ -650,7 +661,7 @@ def TaskDetail(request,id,uid):
         tmsg2=SearchOReqByTag(uid,2)#ttag=2
         tmsg3=SearchOReqByTag(uid,1)#ttag=3
         l1=len(tmsg0)+len(tmsg1)+len(tmsg2)+len(tmsg3)
-        return render_to_response("taskdetail.html",{'len1':l1,'result2':result2,'flag1':flag1,'l':l,'uname':name,'id':id,'uid':uid,'title':title,'sdate':date,'tag1':tag1,'tag':tag,'priority':priority,'location':location,\
+        return render_to_response("taskdetail.html",{'ordertag':ordertag,'couname':couname,'period':period,'len1':l1,'result2':result2,'flag1':flag1,'l':l,'uname':name,'id':id,'uid':uid,'title':title,'sdate':date,'tag1':tag1,'tag':tag,'priority':priority,'location':location,\
                                                      'des':desc,'situation':situation,'tag2':tag2,'result':result,'per':per}, context_instance=RequestContext(request))
     else:
         flag = 2
@@ -671,6 +682,13 @@ def ChangeTaskpre(request):
         desc=info[7]
         tag=info[8]
         sid=info[9]
+        ordertag=info[10]
+        if ordertag==1:
+            couname=SearchUserByID(info[11])[1]
+            period=info[12]
+        else:
+            couname=0
+            period=0
         if sid==None:
             situ=u'无'
         else:
@@ -685,7 +703,7 @@ def ChangeTaskpre(request):
                 stitle=i[2]
                 newnode={'sid':sid,'stitle':stitle}
                 result2.append(newnode)
-        return render_to_response("updatetask.html",{"situ1":situ,"uid":int(uid),'tid':tid,'uname':name,"id":int(id),"title":title,"date":date,"pri":priority,"location":location,"des":desc,"tag":tag,"result2":result2}, context_instance=RequestContext(request))
+        return render_to_response("updatetask.html",{'ordertag':ordertag,'couname':couname,'period':period,"situ1":situ,"uid":int(uid),'tid':tid,'uname':name,"id":int(id),"title":title,"date":date,"pri":priority,"location":location,"des":desc,"tag":tag,"result2":result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -710,7 +728,10 @@ def ChangeTask(request):
             situ=int(situation)
         if timetest(int(uid)):
             DeleteTask(int(id))
-            WriteTask(int(id),int(tid),int(uid),title,sdate,priority,location,des,tag,situ,info[10],info[11],info[12])
+            if info[10]==0:
+                WriteTask(int(id),int(tid),int(uid),title,sdate,priority,location,des,tag,situ,info[10],info[11],info[12])
+            elif info[10]==1:
+                WriteTask(int(id),int(tid),int(uid),title,info[4],priority,location,des,tag,situ,info[10],info[11],info[12])
             return HttpResponseRedirect('/TaskDetail/id'+id+'uid'+uid+'/')
     else:
         flag = 2
@@ -722,6 +743,21 @@ def DeleteSituation(request,sid,uid):
         info=SearchTaskByID(uid)
         DeleteOneSituation(uid,sid)
         return HttpResponseRedirect('/UserDetail/'+str(uid)+'/')
+    else:
+        flag = 2
+        return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
+
+def DeleteAllTask(request,option,uid):
+    uid = int(uid)
+    option = int (option)
+    if timetest(uid):
+        if option==1:
+            DeleteDoneTask(uid)
+            return HttpResponseRedirect('/finished/'+str(uid)+'/')
+        elif option==2:
+            DeleteDeleteTask(uid)
+            return HttpResponseRedirect('/deleted/'+str(uid)+'/')
+
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))

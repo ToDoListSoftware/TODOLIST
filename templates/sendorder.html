@@ -80,6 +80,11 @@
         }
 
 	</script>
+    <script>
+        function alertsomething(){
+            alert("成功发送预约请求!");
+        }
+    </script>
 
 
 
@@ -181,7 +186,7 @@
                    <div style="position: relative;top:30px;left:-270px;">
                        <input type="hidden" name="uid" value="{{ uid }}"/>
                        <input type="hidden" name="fuid" value="{{ fuid }}"/>
-                       <span style="color: #075E8B;font-size: 18px;">请选择日期:&nbsp;&nbsp;&nbsp;</span><input readonly class="form_input" name="day" type="text" onclick="JTC.setday()" />
+                       <span style="color: #075E8B;font-size: 18px;">请选择日期:&nbsp;&nbsp;&nbsp;</span><input required readonly class="form_input" name="day" type="text" onclick="JTC.setday()" />
                    </div>
                    <div style="position: relative;top:50px;left:-400px;display: inline-block;" class="choosetime">
                        <div style="position:relative; color: #075E8B;font-size: 18px;">请选择具体时间段:</div>
@@ -219,7 +224,7 @@
                            <div style="position:relative;left:155px;top:-100px;"><textarea class="form_input" required name="reason" placeholder="详细描述" style="height:100px;"></textarea></div>
                        </div>
                        <div style="position: relative;left:20px;top:-10px;">
-                           <input type="submit" value="确认发送" />
+                           <input type="submit" value="确认发送" onclick="alertsomething()" />
                        </div>
 
 

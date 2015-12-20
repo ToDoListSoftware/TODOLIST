@@ -42,7 +42,32 @@ def MainOrder(request,uid):
         friendnum = len(fresult)
         fresult=sorted(fresult,key=operator.itemgetter('funame'))
 
-        return render_to_response('mainoder.html',{'friendnum':friendnum,'friendlist':fresult,'len1':l1,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+        ordertask=SearchOTaskByUId(uid)
+
+        print ordertask
+        orderresult=[]
+        if len(ordertask)!=0:
+            for row in ordertask:
+                if row[12] == 1:
+                    period="6:00~9:00"
+                elif row[12] == 2:
+                    period="9:00~12:00"
+                elif row[12] == 3:
+                    period="12:00~15:00"
+                elif row[12] == 4:
+                    period="15:00~18:00"
+                elif row[12] == 5:
+                    period="18:00~21:00"
+                elif row[12] == 6:
+                    period="21:00~24:00"
+                node={"id":row[0],'title':row[3],'date':row[4],'pri':row[5],'loction':row[6],'desc':row[7],'couid':row[11],'couname':SearchUserByID(row[11])[1],'period':period}
+                orderresult.append(node)
+            orderlen=len(orderresult)
+        else:
+           orderlen=0
+
+
+        return render_to_response('mainoder.html',{'orderlen':orderlen,'ordertask':orderresult,'friendnum':friendnum,'friendlist':fresult,'len1':l1,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
@@ -124,7 +149,9 @@ def SendOrder(request):
         for pitem in period:
             WriteOReq(oid,uid,fuid,desc,datetime.now().strftime("%Y-%m-%d"),day,int(pitem),0,title,location)
             oid+=1
-        return render_to_response('myorders.html',{'len1':l1,'flag1':flag1, 'uname':uname,'uid':uid, 'len':l,'result2':result2}, context_instance=RequestContext(request))
+
+        return  HttpResponseRedirect('/MainOrder/'+str(uid))
+
     else:
         flag = 2
         return render_to_response('login.html', {'flag':flag}, context_instance=RequestContext(request))
