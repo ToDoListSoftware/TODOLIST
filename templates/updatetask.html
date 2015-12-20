@@ -210,7 +210,7 @@
             </div>
 
             <div>
-                <input  class="form_input" disabled name="period" type="text" value="时间段:{% ifequal period 1 %}6:00~9:00{% endifequal %}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+                <input  class="form_input" disabled name="period" type="text" value="时间段:{{ period }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
             </div>
             <div>
                 <input  class="form_input" disabled name="couname" type="text" value="合作者:{{ couname }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">

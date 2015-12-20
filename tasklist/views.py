@@ -609,6 +609,19 @@ def TaskDetail(request,id,uid):
         if ordertag==1:
             couname=SearchUserByID(info[11])[1]
             period=info[12]
+            if period == 1:
+                period="6:00~9:00"
+            elif period == 2:
+                period="9:00~12:00"
+            elif period == 3:
+                period="12:00~15:00"
+            elif period == 4:
+                period="15:00~18:00"
+            elif period == 5:
+                period="18:00~21:00"
+            elif period == 6:
+                period="21:00~24:00"
+
         else:
             couname=0
             period=0
@@ -686,6 +699,18 @@ def ChangeTaskpre(request):
         if ordertag==1:
             couname=SearchUserByID(info[11])[1]
             period=info[12]
+            if period == 1:
+                period="6:00~9:00"
+            elif period == 2:
+                period="9:00~12:00"
+            elif period == 3:
+                period="12:00~15:00"
+            elif period == 4:
+                period="15:00~18:00"
+            elif period == 5:
+                period="18:00~21:00"
+            elif period == 6:
+                period="21:00~24:00"
         else:
             couname=0
             period=0
