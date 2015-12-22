@@ -6,6 +6,10 @@
 	list-style: none;
 }
 
+button{
+	width:45px;
+}
+
 .lt{
 	float: left;
 }

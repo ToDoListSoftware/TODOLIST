@@ -13,19 +13,22 @@
         background-color:#ffffff;
         border-radius:3px;
         border:2px solid #075E8B;
-        position:absolute;
+        position:fixed;
         width:308px;
         height:220px;
-        top:-40px;
-        left:250px;
+        top:200px;
+        left:600px;
         display:none;
         box-shadow:5px 5px 5px #322E2F;
         z-index:999;
     }
+    button{
+        width:60px;
+    }
     </style>
 
     <style type="text/css">
-        ul,li{margin: 0;padding: 0;font: 12px normal "宋体", Arial, Helvetica, sans-serif;list-style: none;}
+        ul,li{margin: 0;padding: 0;list-style: none;}
         #tabbox{ overflow:hidden; margin:50px 50px;}
         .tab_conbox{border: 1px solid #999;border-top: none;}
         .tab_con{ display:none;}
@@ -119,7 +122,7 @@
 	</div>
 
 	<!--侧边栏-->
-	<div class="sidebar">
+    <div class="sidebar">
 		<ul>
 			<li>
 				<h3>收 藏</h3>
@@ -138,7 +141,7 @@
 				</ul>
 			</li>
 			<li>
-				<h3>所有情境  <div><a href="/AddSituationpre/{{ uid }}">+</a></div></h3>
+				<h3>所有情境  <div><a href="/AddSituationpre/{{ uid }}"">+</a></div></h3>
 				<ul>
                     {% ifequal flag1 0 %}
                          <li><div id="pic8"></div>无</li>
@@ -180,7 +183,7 @@
                        <div id="task" style="height:80%;width: 1000px;height:400px; position: relative;left:30px;top:60px;margin:0;overflow: scroll;">
                             {% for user in friendlist %}
                                 <div style="width:90%;">
-                                <div class="task-item" style="">
+                                <div class="task-item">
                                     <div class="task-date" style="position: relative;">
                                         {% ifequal user.gender '保密' %}
                                             <div class="genderpic1" style="position: absolute;top:0px;left:20px; "></div><a style="position: absolute;font-size:16px;top:0px;left:40px;" href="/FuserInfo/{{ user.fuid }}/{{ uid }}/">{{user.funame}}</a>
@@ -206,16 +209,16 @@
                                 <span style="font-size: 17px;color: #075E8B;position: relative;left:-250px;">您当前没有预约任务.</span>
                             {% else %}
                                 <span style="font-size: 17px;color: #075E8B;position: relative;left:-250px;">您当前一共有{{ orderlen }}项预约:</span>
-                                <div id="task" style="position: relative;height:400px;top:-60px;">
+                                <div id="task" style="position: relative;height:400px;top:-60px;overflow-y:scroll; ">
                                     {% for task in ordertask %}
-                                        <div class="task-item">
+                                        <div class="task-item" style="width:850px;">
                                             <div class="task-date">
                                                 {{task.title}}
                                             </div>
-                                            <div>
-                                                <input style="position:absolute;left:800px;display: block;" type="button" value="详情" class="delbtn" onclick="popWindowShow('查看预约详情',this)"/>
+                                            <div style="position: relative;">
+                                                <input style="position:absolute;left:800px;display: block;" type="button" value="详情" class="delbtn" onclick="popWindowShow('查看预约详情',this,{{ forloop.counter }})"/>
 
-                                                <div class="popWindow"id="popWindow">
+                                                <div class="'popWindow'+{{ forloop.counter }} popWindow" id="popWindow">
                                                     <table style="width:100%;line-height:22px;"cellspacing="0"cellpadding="0">
                                                         <tr style="background-color:#075E8B;">
                                                             <td style="color:white;font-family:bolder;font-size:10pt;"id="titleTd">预约详情</td>
@@ -226,7 +229,7 @@
                                                     <div><span style="padding-left: 20px;">地点:&nbsp;</span>{{ task.location }}</div>
                                                     <div><span style="padding-left: 20px;">合作者:&nbsp;</span>{{ task.couname }}</div>
                                                     <div><span style="padding-left: 20px;">描述:&nbsp;</span>{{ task.desc }}</div>
-                                                    <input style="position: relative;left:135px;top:5px;" type="button" value="确定" onclick="popWindowHide()"/>
+                                                    <input style="position: relative;left:135px;top:5px;" type="button" value="确定" onclick="popWindowHide({{ forloop.counter }})"/>
 
                                                 </div>
 
@@ -269,15 +272,16 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
 
-function popWindowShow(title,obj)
+function popWindowShow(title,obj,i)
 {
-var popWindow = document.getElementById("popWindow");
+
+var popWindow = document.getElementsByClassName("popWindow")[i-1];
 var popFrame = document.getElementById("popFrame");
 var popWindowBg = document.getElementById("popWindowBg");
 
 document.getElementById("titleTd").innerHTML = title;
 popWindow.style.display ="block";
-popWindowBg.style.display ="block";
+
     var o = document.getElementsByClassName("delbtn");
     for (var i=0;i<o.length ;i++)
     {
@@ -289,9 +293,10 @@ popWindowBg.style.display ="block";
        }
     }
 }
-function popWindowHide()
+function popWindowHide(i)
 {
-    document.getElementById("popWindow").style.display ="none";
+    var pop = document.getElementsByClassName("popWindow")[i-1];
+    pop.style.display ="none";
     document.getElementById("popWindowBg").style.display ="none";
 
 }

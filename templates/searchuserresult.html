@@ -30,24 +30,7 @@
 			var a = document.getElementById('user_drop_down');
 			a.style.display = 'none';
 		}
-        function changetag(){
-            var box = document.getElementsByClassName('check');
-            for(var i=0; i<box.length; i++){
-                if (box[i].checked == true)
-                {
-                    var f = document.getElementsByClassName('formid');
-                    f[i].submit();
-                }
-            }
-        }
 
-
-        window.onload = function () {
-            var h = document.getElementById('content');
-            var s = document.getElementsByClassName('sidebar')[0];
-            var h1 = h.style.height;
-            s.style.height = h1;
-        }
 
 	</script>
 </head>

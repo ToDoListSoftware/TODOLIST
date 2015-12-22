@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" href="{% static "images/todo.png" %}" type="image/x-icon"/>
@@ -81,9 +81,7 @@
 
 	</script>
     <script>
-        function alertsomething(){
-            alert("成功发送预约请求!");
-        }
+
     </script>
 
 
@@ -177,54 +175,54 @@
             </ul>
             <ul class="tab_conbox" id="tab_conbox">
                 <li style="display: none;" class="tab_con">
-                   <div >
-                       <div style="position: relative;left:-260px;top:5px;font-size: 17px;color: #075E8B;"><span style="font-size: 20px;"><b>Step Two:</b></span>&nbsp;&nbsp;&nbsp;您将预约{{ funame }},&nbsp;请选择预约时间段并填写预约备注</div>
-                       <div onclick="javascript:window.history.back(-1);" style="position: relative;display: inline-block;top:-20px;left:450px;"><a style="color: #075E8B;" >&lt;&lt;返回上一步</a></div>
+                   <div>
+                       <div style="position: relative;left:-230px;top:5px;font-size: 17px;color: #075E8B;"><span style="font-size: 20px;"><b>Step Two:</b></span>&nbsp;&nbsp;&nbsp;您将预约{{ funame }},&nbsp;请选择预约时间段并填写预约备注</div>
+                       <div onclick="javascript:window.history.back(-1);" style="position: relative;display: inline-block;top:-20px;left:400px;"><a style="color: #075E8B;" >&lt;&lt;返回上一步</a></div>
                    </div>
                    <form  method="post" action="/SendOrder/">
                     {% csrf_token %}
-                   <div style="position: relative;top:30px;left:-270px;">
+                   <div style="position: relative;top:30px;left:-260px;">
                        <input type="hidden" name="uid" value="{{ uid }}"/>
                        <input type="hidden" name="fuid" value="{{ fuid }}"/>
-                       <span style="color: #075E8B;font-size: 18px;">请选择日期:&nbsp;&nbsp;&nbsp;</span><input required readonly class="form_input" name="day" type="text" onclick="JTC.setday()" />
+                       <span style="color: #075E8B;font-size: 18px;">请选择日期:&nbsp;&nbsp;&nbsp;</span><input required readonly class="form_input" name="day" type="text" onclick="JTC.setday()"/><span style="font-size:20px;color:red;">&nbsp;&nbsp;*</span>
                    </div>
                    <div style="position: relative;top:50px;left:-400px;display: inline-block;" class="choosetime">
                        <div style="position:relative; color: #075E8B;font-size: 18px;">请选择具体时间段:</div>
                        <div style="position: relative;left:170px;top:-25px; display: inline-block;">
                            <div class="everyradio">
-                               <input  type="checkbox" value="1" name="period" />
+                               <input onclick="test1();"  type="checkbox" value="1" name="period" />
                                <label >06:00~09:00</label>
                            </div><br/>
                            <div class="everyradio">
-                               <input type="checkbox" value="2" name="period" />
+                               <input onclick="test1()" type="checkbox" value="2" name="period" />
                                <label >09:00~12:00</label>
                            </div><br/>
                            <div class="everyradio">
-                               <input type="checkbox" value="3" name="period" />
+                               <input onclick="test1();" type="checkbox" value="3" name="period" />
                                <label >12:00~15:00</label>
                            </div><br/>
                            <div class="everyradio">
-                               <input type="checkbox" value="4" name="period"/>
+                               <input onclick="test1();" type="checkbox" value="4" name="period"/>
                                <label >15:00~18:00</label>
                            </div><br/>
                            <div class="everyradio">
-                               <input type="checkbox" value="5" name="period"/>
+                               <input onclick="test1();" type="checkbox" value="5" name="period"/>
                                <label >18:00~21:00</label>
                            </div><br/>
                            <div class="everyradio">
-                               <input type="checkbox" value="6" name="period" />
+                               <input onclick="test1();" type="checkbox" value="6" name="period" />
                                <label >21:00~24:00</label>
                            </div>
                        </div>
                    </div>
                        <div style="position: relative;left:-370px;top:130px;">
                            <span style="position: relative;left:0px;top:-100px;color: #075E8B;font-size: 18px;">以下输入预约详细内容:&nbsp;&nbsp;&nbsp;</span>
-                           <div style="position:relative;left:155px;top:-100px;"><input class="form_input" required type="text" placeholder="标题" name="title"/></div>
-                           <div style="position:relative;left:155px;top:-100px;"><input class="form_input" required type="text"placeholder="地点" name="location"/></div>
-                           <div style="position:relative;left:155px;top:-100px;"><textarea class="form_input" required name="reason" placeholder="详细描述" style="height:100px;"></textarea></div>
+                           <div style="position:relative;left:155px;top:-100px;"><input class="form_input" required type="text" placeholder="标题" name="title"/><span style="font-size:20px;color:red;">&nbsp;&nbsp;*</span></div>
+                           <div style="position:relative;left:155px;top:-100px;"><input class="form_input" required type="text"placeholder="地点" name="location"/><span style="font-size:20px;color:red;">&nbsp;&nbsp;*</span></div>
+                           <div style="position:relative;left:155px;top:-100px;"><textarea class="form_input" required name="reason" placeholder="详细描述" style="height:100px;"></textarea><span style="font-size:20px;color:red;position: relative;top:-100px;">&nbsp;&nbsp;*</span></div>
                        </div>
                        <div style="position: relative;left:20px;top:-10px;">
-                           <input type="submit" value="确认发送" onclick="alertsomething()" />
+                           <input id="lenbug" type="submit" value="确认发送"  />
                        </div>
 
 
@@ -262,7 +260,40 @@ $(document).ready(function() {
 	$.jqtab("#tabs2","#tab_conbox2","mouseenter");
 
 });
+    window.onload = function test(){
+        var inputs = document.getElementsByName('period');
+        var isChecked = false;
+        var btn = document.getElementById('lenbug');
+        for (var i = 0; i < inputs.length; i++) {
+            if ( inputs[i].checked == true) {
+                isChecked = true;
+                return;
+            }
+        }
+        if (!isChecked) { btn.disabled = true; }
+        else{btn.disabled = false;}
+    }
+    function test1(){
+        var inputs = document.getElementsByName('period');
+
+        var isChecked = false;
+        var btn = document.getElementById('lenbug');
+        for (var i = 0; i < inputs.length; i++) {
+            if ( inputs[i].checked == true) {
+                isChecked = true;
+            }
+        }
+        if (isChecked) { btn.disabled = false; }
+        else{btn.disabled = true;}
+    }
+    function test2(){
+        var day = document.getElementsByName('day');
+        var btn = document.getElementById('lenbug');
+        if (day.value.length>0) { btn.disabled = false; }
+        else{btn.disabled = true;}
+    }
 </script>
+
 
 
 </body>

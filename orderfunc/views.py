@@ -60,7 +60,7 @@ def MainOrder(request,uid):
                     period="18:00~21:00"
                 elif row[12] == 6:
                     period="21:00~24:00"
-                node={"id":row[0],'title':row[3],'date':row[4],'pri':row[5],'loction':row[6],'desc':row[7],'couid':row[11],'couname':SearchUserByID(row[11])[1],'period':period}
+                node={"id":row[0],'title':row[3],'date':row[4],'pri':row[5],'location':row[6],'desc':row[7],'couid':row[11],'couname':SearchUserByID(row[11])[1],'period':period}
                 orderresult.append(node)
             orderlen=len(orderresult)
         else:

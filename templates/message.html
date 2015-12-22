@@ -8,15 +8,18 @@
     <script src="{% static "JS/dealsearch.js" %}"></script>
 	<title>我的消息 | ToDo List</title>
     <style type="text/css">
+    button{
+        width:45px;
+    }
     .popWindow{
         background-color:#ffffff;
         border-radius:3px;
         border:2px solid #075E8B;
-        position:absolute;
+        position:fixed;
         width:308px;
         height:220px;
-        top:180px;
-        left:400px;
+        top:200px;
+        left:600px;
         display:none;
         box-shadow:5px 5px 5px #322E2F;
         z-index:999;
@@ -24,7 +27,7 @@
     </style>
 
     <style type="text/css">
-        ul,li{margin: 0;padding: 0;font: 12px normal "宋体", Arial, Helvetica, sans-serif;list-style: none;}
+        ul,li{margin: 0;padding: 0;list-style: none;}
         #tabbox{ overflow:hidden; margin:50px 50px;}
         .tab_conbox{border: 1px solid #999;border-top: none;}
         .tab_con{ display:none;}
@@ -179,39 +182,40 @@
 		<div id="task" style="height:600px;overflow:scroll;">
             {% for msg in messages %}
                 <div class="task-item" onmouseover="showdel()" onmouseout="hidedel()">
-                    <div class="task-date" >
+                    <div class="task-date" style="position: relative;" >
                         <span style="color: #154BA0">{{ msg.sdate }}</span>&nbsp;&nbsp;&nbsp;
                         <span style="color: orange">{{msg.funame}}</span>
                         {% ifequal msg.ttag 0 %}
                             <span>向您发送好友申请</span>
                             <span>({{ msg.desc }})</span>
-                            <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button>&nbsp;<button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button>&nbsp;<button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';"> 忽略</button></div>
+                            <div style="display:inline-block;float:right;position: absolute;left:700px;top:0px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button></div>&nbsp;<div style="display:inline-block;float:right;position: absolute;left:750px;top:0px;"><button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button></div>&nbsp;<div style="display:inline-block;float:right;position: absolute;left:800px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';"> 忽略</button></div>
 
                         {% endifequal %}
 
                         {% ifequal msg.ttag 1 %}
                             <span>{% ifequal msg.tag 1 %}同意了您的好友申请{% endifequal %}{% ifequal msg.tag 2 %}拒绝了您的好友申请{% endifequal %}</span>
-                            <div style="display:inline-block;float:right;position: absolute;left:850px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+                            <div style="display:inline-block;float:right;position: absolute;left:700px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
 
                         {% endifequal %}
                         {% ifequal msg.ttag 2 %}
                             <span>想在{{ msg.odate }}日
                             {{ msg.period }} 预约您
                             </span>
-                            <div style="display:inline-block;float:right;position: relative;left:352px;top:0px;"><button onclick="popWindowShow('预约详情',this)">详情</button>&nbsp;<button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button>&nbsp;<button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button>&nbsp;<button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">忽略</button></div>
-                            <div class="popWindow"id="popWindow">
+                            <div style="display:inline-block;float:right;position: absolute;left:700px;top:0px;"><button onclick="popWindowShow('预约详情',this,{{ forloop.counter }})">详情</button></div>&nbsp;<div style="display:inline-block;float:right;position: absolute;left:750px;top:0px;"><button onclick="window.location.href='/DealMsg/1/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">同意</button></div>&nbsp;<div style="display:inline-block;float:right;position: absolute;left:800px;top:0px;"><button onclick="window.location.href='/DealMsg/2/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">拒绝</button></div>&nbsp;<div style="display:inline-block;float:right;position: absolute;left:850px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">忽略</button></div>
+                            <div class="'popWindow'+{{ forloop.counter }} popWindow"id="popWindow">
                                 <table style="width:100%;line-height:22px;"cellspacing="0"cellpadding="0">
                                     <tr style="background-color:#075E8B;">
                                         <td style="color:white;font-family:bolder;font-size:10pt;"id="titleTd">预约详情</td>
                                     </tr>
                                 </table>
-                                <div><span style="padding-left: 20px;">日期:&nbsp;</span>{{ msg.sdate }}</div>
+                                <div><span style="padding-left: 20px;">标题:&nbsp;</span>{{ msg.title }}</div>
+                                <div><span style="padding-left: 20px;">日期:&nbsp;</span>{{ msg.odate }}</div>
                                 <div><span style="padding-left: 20px;">时间段:&nbsp;</span>{{ msg.period }}</div>
                                 <div><span style="padding-left: 20px;color:red;">您在该时间段已有{{ msg.atasknum }}项预约</span></div>
                                 <div><span style="padding-left: 20px;">地点:&nbsp;</span>{{ msg.location }}</div>
                                 <div><span style="padding-left: 20px;">合作者:&nbsp;</span>{{ msg.funame }}</div>
                                 <div><span style="padding-left: 20px;">描述:&nbsp;</span>{{ msg.desc }}</div>
-                                <input style="position: relative;left:135px;top:5px;" type="button" value="确定" onclick="popWindowHide()"/>
+                                <input style="position: relative;left:135px;top:5px;" type="button" value="确定" onclick="popWindowHide({{ forloop.counter }})"/>
                             </div>
                         {% endifequal %}
                         {% ifequal msg.ttag 3 %}
@@ -232,7 +236,7 @@
                                 21:00~24:00
                                 {% endifequal %}的预约
                                 </span>
-                                <div style="display:inline-block;float:right;position: relative;left:362px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+                                <div style="display:inline-block;float:right;position: absolute;left:700px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
                             {% endifequal %}
                             {% ifequal msg.tag 2%}
                                 <span>拒绝了您在{{ msg.odate }}日
@@ -251,7 +255,7 @@
                                 21:00~24:00
                                 {% endifequal %}的预约
                                 </span>
-                                <div style="display:inline-block;float:right;position: relative;left:362px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
+                                <div style="display:inline-block;float:right;position: absolute;left:700px;top:0px;"><button onclick="window.location.href='/DealMsg/3/{{ msg.id }}/{{ uid }}/{{ msg.ttag }}/{{ msg.fuid }}';">了解</button></div>
 
                             {% endifequal %}
                         {% endifequal %}
@@ -268,9 +272,9 @@
 
 <script type="text/javascript">
 
-function popWindowShow(title,obj)
+function popWindowShow(title,obj,i)
 {
-var popWindow = document.getElementById("popWindow");
+var popWindow = document.getElementsByClassName("popWindow")[i-1];
 var popFrame = document.getElementById("popFrame");
 var popWindowBg = document.getElementById("popWindowBg");
 
@@ -288,9 +292,10 @@ popWindowBg.style.display ="block";
        }
     }
 }
-function popWindowHide()
+function popWindowHide(i)
 {
-    document.getElementById("popWindow").style.display ="none";
+    var pop = document.getElementsByClassName('popWindow')[i-1];
+    pop.style.display ="none";
     document.getElementById("popWindowBg").style.display ="none";
 
 }

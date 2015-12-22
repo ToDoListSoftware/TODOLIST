@@ -181,7 +181,7 @@
 	</div>
 
 	<!--侧边栏-->
-	<div class="sidebar">
+	<div class="sidebar" style="height:1000px;">
 		<ul>
 			<li>
 				<h3>收 藏</h3>
@@ -280,23 +280,23 @@
             </tr>
 			<tr>
                 <td class="titlef">居住地:</td>
-                <td class="oneinfo"><input class="form_input" type="text" name="location" value="{{ location }}"/></td>
+                <td class="oneinfo"><input class="form_input" maxlength="30" type="text" name="location" value="{{ location }}"/></td>
             </tr>
 			<tr>
                 <td class="titlef">学校:</td>
-                <td class="oneinfo"><input class="form_input" type="text" name="school" value="{{ school }}"/></td>
+                <td class="oneinfo"><input class="form_input" maxlength="30" type="text" name="school" value="{{ school }}"/></td>
             </tr>
 			<tr>
                 <td class="titlef">公司:</td>
-                <td class="oneinfo"><input class="form_input" type="text" name="company" value="{{ company }}"/></td>
+                <td class="oneinfo"><input class="form_input" maxlength="30" type="text" name="company" value="{{ company }}"/></td>
             </tr>
 			<tr>
                 <td class="titlef">工作:</td>
-                <td class="oneinfo"><input class="form_input" type="text" name="job" value="{{ job }}"/></td>
+                <td class="oneinfo"><input class="form_input" maxlength="30" type="text" name="job" value="{{ job }}"/></td>
             </tr>
             <tr>
                 <td class="titlef"  style="">个性签名:</td>
-                <td><textarea name="des" style="height:180px; width:300px; padding: 8px; font-size: 14.5px;" id="texta"></textarea></td>
+                <td><textarea class="form_input" name="des" onpropertychange="checkLength(this,50);" oninput="checkLength(this,50);"  style="height:180px; width:280px; padding: 8px; font-size: 14.5px;" id="texta"></textarea></td>
             </tr>
         </table>
         <input type="submit" value="保存" /><br/><br/>
@@ -478,6 +478,15 @@
             return (s < 10 ? '0': '') + s.toString();
         }
         loadcalendar();
+    </script>
+
+    <script>
+        function checkLength(obj,maxlength){
+            if(obj.value.length > maxlength){
+                obj.value = obj.value.substring(0,maxlength);
+                alert(maxlength);
+            }
+        }
     </script>
 </body>
 </html>

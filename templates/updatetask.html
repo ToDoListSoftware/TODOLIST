@@ -180,9 +180,9 @@
 
 	<!--主体-->
 
-    <div>
+    <div id="content">
     <div style="float:right; position: relative; left: -100px; top:100px;">
-        <input style="width: 80px;" onclick="window.location.href='/TodayTask/{{ uid }}/';" type="submit" value="返回主页"/>
+        <button style="width: 80px;" onclick="window.location.href='/TodayTask/{{ uid }}/';" type="submit">返回主页</button>
             <br/><br/>
         <button style="width: 80px;" onclick="javascript:window.history.back(-1);">返回上一页</button>
     </div><br/><br/><br/><br/><br/>
@@ -194,26 +194,26 @@
             <input type="hidden" name="tid" value="{{ tid }}"  />
             <input type="hidden" name="id" value="{{ id }}"  />
             <div class="input_box">
-                <input tabindex="1" type="text" placeholder="标题" value="{{ title }}" name="title" class="form_input"/>
+                <input tabindex="1" type="text" placeholder="标题" title="标题" value="{{ title }}" name="title" class="form_input"/>
             </div>
             <div class="input_box">
-                <input tabindex="2" type="text" placeholder="地点" value="{{ location }}" name="location" class="form_input"/>
+                <input tabindex="2" type="text" placeholder="地点" title="地点" value="{{ location }}" name="location" class="form_input"/>
             </div>
-            <div><textarea id="texta" tabindex="3" placeholder="详情" style="height: 200px;" name="des" value="{{ des }}" class="form_input"></textarea></div>
+            <div><textarea id="texta" tabindex="3" placeholder="详情" title="详情" style="height: 200px;" name="des" value="{{ des }}" class="form_input"></textarea></div>
             {% ifequal ordertag 0 %}
             <div>
-                <input  class="form_input"  name="sdate" type="text" value="{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+                <input  class="form_input"  name="sdate" title="日期" type="text" value="{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
             </div>
             {% else %}
             <div>
-                <input disabled class="form_input"  name="sdate" type="text" value="日期:{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+                <input disabled class="form_input"  name="sdate" title="日期" type="text" value="日期:{{ date }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
             </div>
 
             <div>
-                <input  class="form_input" disabled name="period" type="text" value="时间段:{{ period }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+                <input  class="form_input" disabled name="period" title="时间段" type="text" value="时间段:{{ period }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
             </div>
             <div>
-                <input  class="form_input" disabled name="couname" type="text" value="合作者:{{ couname }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
+                <input  class="form_input" disabled name="couname" title="合作者" type="text" value="合作者:{{ couname }}" size="14" readonly onclick="showcalendar(event,this);" onfocus="showcalendar(event, this);if(this.value=='0000-00-00')this.value=''">
             </div>
             {% endifequal %}
                 <div class="input_box">

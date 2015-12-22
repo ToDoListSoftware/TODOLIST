@@ -202,7 +202,8 @@
             <div style="position: relative;" >
             {% if day != 0 %}
                 <div style="display:inline-block;position: absolute;top:-39px;left:5px;width:15px;height:15px;color:rgb(35,98,147)">{{ day }}</div>
-               <div class="calendarbug" style="display: inline-block;position: absolute;top:-39px;left:5px;;"> {% for entry in entries %}
+               <div class="calendarbug" style="display: inline-block;position: absolute;top:-40px;left:3px;">
+                   {% for entry in entries %}
                     <br/>
                         {% ifequal entry.pri 2 %}
                         <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}" title="{{entry.title}}" style="color:red;">{{ entry.title}}</a>
@@ -213,7 +214,8 @@
                         {% ifequal entry.pri 0%}
                         <a href="/TaskDetail/id{{ entry.id }}uid{{ uid }}"title="{{entry.title}}">{{entry.title}}</a>
                         {% endifequal %}
-                {% endfor %}</div>
+                   {% endfor %}
+               </div>
             {% endif %}
             </div>
             </td>

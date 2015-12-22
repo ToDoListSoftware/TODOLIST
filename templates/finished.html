@@ -148,7 +148,7 @@
 		</div>
 
 		<div id="task" style="overflow: scroll;height:600px;">
-            <div><button onclick="window.location.href='/DeleteAllTask/1/{{ uid }}';" style="margin: 10px auto;position: relative;left:-430px;">一键清空</button></div>
+            <div><button onclick="window.location.href='/DeleteAllTask/1/{{ uid }}';" style="width:60px;margin: 10px auto;position: relative;left:-430px;">一键清空</button></div>
             {% for task in result %}
                 <div class="task-item"  onmouseout="hidedel()" onmouseover="showdel()">
                     <div class="task-checkbox">

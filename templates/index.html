@@ -142,7 +142,7 @@
 			<form method="post" action="/searchtask/">
                 {% csrf_token %}
                 <input type="hidden" name="uid"  value="{{ uid }}" />
-				<input type="text" required name="word" required placeholder="搜索任务" class="input-box" id="wanttosearch" />
+				<input type="text" required name="word" min="1" required placeholder="搜索任务" class="input-box" id="wanttosearch" />
 				<input type="submit" value="" id="startsearch" class="search-btn"/>
 			</form>
 		</div>
